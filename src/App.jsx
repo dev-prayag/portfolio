@@ -111,20 +111,20 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* TECH STACK MARQUEE */}
+      {/* TECH STACK MARQUEE */}
 <section className="py-4 relative">
-  {/* Left Gradient Mask: Dynamic color switch */}
+  {/* Left Mask - Removed 'duration-500' for instant theme switching */}
   <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-r ${
     isDark ? 'from-[#080808]' : 'from-[#f8f8f8]'
   } to-transparent`}></div>
   
-  {/* Right Gradient Mask: Dynamic color switch */}
+  {/* Right Mask - Removed 'duration-500' for instant theme switching */}
   <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-l ${
     isDark ? 'from-[#080808]' : 'from-[#f8f8f8]'
   } to-transparent`}></div>
   
   <div className="flex overflow-hidden group">
-    {/* group-hover:[animation-play-state:paused] stops the movement when your mouse is over it */}
+    {/* 'group-hover:[animation-play-state:paused]' allows for smooth interaction */}
     <div className="flex animate-marquee whitespace-nowrap gap-12 items-center py-2 group-hover:[animation-play-state:paused]">
       {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
         <span 
