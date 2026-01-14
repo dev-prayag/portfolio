@@ -216,8 +216,8 @@ export default function Home() {
               ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
               SHOWCASE
             </p>
-            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r bg-clip-text text-transparent relative z-10
-              ${isDark ? 'from-white via-zinc-200 to-zinc-400' : 'from-zinc-900 via-zinc-700 to-zinc-500'}`}>
+            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight relative z-10
+              ${isDark ? 'text-white' : 'text-zinc-900'}`}>
               Featured Projects
             </h2>
             <div className="absolute -bottom-4 right-0 h-16 w-48 md:w-64 lg:w-80 bg-gradient-to-l from-transparent via-transparent to-black/80 pointer-events-none"></div>
@@ -324,8 +324,8 @@ export default function Home() {
               ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
               Contact
             </p>
-            <h2 className={`text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r bg-clip-text text-transparent relative z-10
-              ${isDark ? 'from-white via-zinc-200 to-zinc-400' : 'from-zinc-900 via-zinc-700 to-zinc-500'}`}>
+            <h2 className={`text-4xl md:text-5xl font-bold tracking-tight relative z-10
+              ${isDark ? 'text-white' : 'text-zinc-900'}`}>
               Connect with me
             </h2>
             <div className="absolute -bottom-4 right-0 h-16 w-48 md:w-64 lg:w-80 bg-gradient-to-l from-transparent via-transparent to-black/80 pointer-events-none"></div>
