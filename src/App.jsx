@@ -203,7 +203,7 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* Projects */}
+        {/* PROJECTS SECTION - Updated */}
         <section id="projects" className="space-y-14 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div>
@@ -216,17 +216,6 @@ export default function Portfolio() {
                 Featured Projects
               </h2>
             </div>
-
-            {repos.length > 5 && (
-              <a
-                href="/projects"
-                className={`flex items-center gap-2 px-7 py-3.5 rounded-full font-medium transition-all hover:scale-105 active:scale-95
-                  ${isDark ? 'bg-rose-600/15 hover:bg-rose-600/25 border-rose-500/30 text-rose-300 hover:text-rose-200' : 'bg-rose-100 hover:bg-rose-200 border-rose-300 text-rose-700 hover:text-rose-800'}`}
-              >
-                View All Projects ({repos.length})
-                <ArrowUpRight size={18} />
-              </a>
-            )}
           </div>
 
           <div className="grid gap-8 md:gap-10 lg:gap-12">
@@ -249,8 +238,11 @@ export default function Portfolio() {
                       ? 'bg-gradient-to-br from-zinc-950 via-[#0a0a0a] to-[#0f0f0f] border-zinc-800/70 hover:border-rose-500/50 hover:shadow-rose-900/30'
                       : 'bg-white border-zinc-200 hover:border-rose-400/60 hover:shadow-rose-500/20 shadow-md'}`}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br from-rose-500/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none
-                    ${isDark ? '' : 'from-rose-400/8'}`} />
+                  {/* Old-style big background number */}
+                  <span className={`absolute -top-8 -left-6 md:-left-10 text-[10rem] md:text-[14rem] lg:text-[16rem] font-black leading-none opacity-[0.04] pointer-events-none select-none italic group-hover:opacity-[0.09] transition-opacity duration-500
+                    ${isDark ? 'text-white' : 'text-zinc-900'}`}>
+                    {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                  </span>
 
                   <div className="relative z-10">
                     <div className="flex items-center gap-4 mb-6">
@@ -302,9 +294,25 @@ export default function Portfolio() {
               </div>
             )}
           </div>
+
+          {/* View All Projects - small footer-style button at bottom */}
+          {repos.length > 0 && (
+            <div className="flex justify-center mt-16">
+              <a
+                href="/projects"
+                className={`flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium transition-all hover:scale-105 active:scale-95 border backdrop-blur-sm
+                  ${isDark
+                    ? 'bg-zinc-900/60 border-zinc-700/50 text-zinc-400 hover:text-rose-300 hover:bg-zinc-800/70'
+                    : 'bg-zinc-100/80 border-zinc-300/60 text-zinc-600 hover:text-rose-600 hover:bg-zinc-200/70'}`}
+              >
+                View All Projects ({repos.length})
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+          )}
         </section>
 
-        {/* Contact Section - full original cards + collab box */}
+        {/* Contact Section */}
         <section id="contact" className="space-y-12 scroll-mt-24">
           <div>
             <p className={`text-rose-500 font-bold text-sm uppercase tracking-[0.2em] mb-2 transition-colors
@@ -318,7 +326,7 @@ export default function Portfolio() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Email Card */}
+            {/* Email */}
             <div className={`flex items-center gap-4 p-6 rounded-2xl border transition-all duration-300 group hover:-translate-y-1
               ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] hover:border-rose-500/30' : 'bg-white border-zinc-200 hover:shadow-xl'}`}>
               <div className={`p-4 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-rose-500' : 'bg-zinc-100 text-zinc-600'}`}>
@@ -330,7 +338,7 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* GitHub Card */}
+            {/* GitHub */}
             <a
               href="https://github.com/dev-prayag"
               target="_blank"
@@ -347,7 +355,7 @@ export default function Portfolio() {
               </div>
             </a>
 
-            {/* Discord Card */}
+            {/* Discord */}
             <button
               onClick={copyDiscord}
               className={`flex items-center gap-4 p-6 rounded-2xl border text-left transition-all duration-300 group hover:-translate-y-1
@@ -359,13 +367,13 @@ export default function Portfolio() {
               <div className="flex flex-col">
                 <span className="text-xs uppercase font-bold tracking-widest opacity-50">Discord</span>
                 <span className="font-medium text-base mt-1">
-                  {copied ? 'Copied!' : 'prayag.void'}
+                  {copied ? 'Copied!' : 'prayag.cake'}
                 </span>
               </div>
             </button>
           </div>
 
-          {/* Collaboration Box */}
+          {/* Collaboration box */}
           <div className={`mt-12 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] relative overflow-hidden group border transition-all duration-500
             ${isDark ? 'bg-gradient-to-br from-[#120808] to-[#080808] border-rose-500/10 hover:border-rose-500/30' : 'bg-rose-50/70 border-rose-200 hover:border-rose-300'}`}>
             <div className="relative z-10 space-y-6">
