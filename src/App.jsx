@@ -112,21 +112,36 @@ export default function Portfolio() {
         </section>
 
         {/* TECH STACK MARQUEE */}
-        <section className="py-4 relative">
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#080808] to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#080808] to-transparent z-10 pointer-events-none"></div>
-          
-          <div className="flex overflow-hidden group">
-            <div className="flex animate-marquee whitespace-nowrap gap-12 items-center py-2">
-              {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
-                <span key={i} className="text-xs font-bold uppercase tracking-[0.3em] opacity-20 group-hover:opacity-60 group-hover:text-rose-500 transition-all duration-500 flex items-center gap-2">
-                  <span className="w-1 h-1 rounded-full bg-current"></span>
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
+<section className="py-4 relative">
+  {/* Left Gradient Mask - Now Dynamic */}
+  <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-r ${
+    isDark ? 'from-[#080808]' : 'from-[#f8f8f8]'
+  } to-transparent`}></div>
+  
+  {/* Right Gradient Mask - Now Dynamic */}
+  <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-l ${
+    isDark ? 'from-[#080808]' : 'from-[#f8f8f8]'
+  } to-transparent`}></div>
+  
+  <div className="flex overflow-hidden group">
+    <div className="flex animate-marquee whitespace-nowrap gap-12 items-center py-2">
+      {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
+        <span 
+          key={i} 
+          className={`text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-2 
+            ${isDark 
+              ? 'text-zinc-100 opacity-20 group-hover:opacity-60' 
+              : 'text-zinc-900 opacity-30 group-hover:opacity-70'
+            } group-hover:text-rose-500`}
+        >
+          <span className="w-1 h-1 rounded-full bg-current"></span>
+          {tech}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
+
 
         {/* PROJECTS SECTION */}
         <section className="space-y-8">
