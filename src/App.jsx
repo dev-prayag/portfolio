@@ -13,7 +13,7 @@ const TECH_STACK = [
   "PostgreSQL", "Docker", "Motion Design", "Figma", "MongoDB", "Rust"
 ];
 
-function App() {
+export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -293,5 +293,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
