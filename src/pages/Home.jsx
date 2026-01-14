@@ -36,6 +36,10 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
+
+  useEffect(() => {
     const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -220,8 +224,6 @@ export default function Home() {
               ${isDark ? 'text-white' : 'text-zinc-900'}`}>
               Featured Projects
             </h2>
-            <div className={`absolute -bottom-4 right-0 h-16 w-48 md:w-64 lg:w-80 pointer-events-none
-              ${isDark ? 'bg-gradient-to-l from-transparent via-transparent to-black/80' : 'bg-gradient-to-l from-transparent via-transparent to-white/80'}`}></div>
           </div>
 
           <div className="grid gap-8 md:gap-10 lg:gap-12">
@@ -329,8 +331,6 @@ export default function Home() {
               ${isDark ? 'text-white' : 'text-zinc-900'}`}>
               Connect with me
             </h2>
-            <div className={`absolute -bottom-4 right-0 h-16 w-48 md:w-64 lg:w-80 pointer-events-none
-              ${isDark ? 'bg-gradient-to-l from-transparent via-transparent to-black/80' : 'bg-gradient-to-l from-transparent via-transparent to-white/80'}`}></div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

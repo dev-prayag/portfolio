@@ -8,8 +8,15 @@ export default function Projects() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('All');
   const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
+    // Attempt to sync dark mode from local storage or default to dark
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDark(savedTheme === 'dark');
+    }
+
     const fetchAllRepos = async () => {
       try {
         const [res1, res2] = await Promise.all([
