@@ -73,26 +73,20 @@ export default function Portfolio() {
     <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-rose-500/30 overflow-x-hidden
       ${isDark ? 'bg-[#080808] text-zinc-100' : 'bg-[#f8f8f8] text-zinc-900'}`}>
 
-      {/* Custom Cursor Glow */}
-      <div
-        className="fixed pointer-events-none z-[99] w-[450px] h-[450px] rounded-full bg-rose-500/5 blur-[120px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 sm:opacity-100"
-        style={{ left: mousePos.x, top: mousePos.y }}
-      />
-
-      {/* Small Cursor Dot */}
-      <div
-        className="fixed pointer-events-none z-[100] w-2 h-2 rounded-full bg-rose-500 -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 opacity-0 sm:opacity-100"
-        style={{ left: mousePos.x, top: mousePos.y }}
-      />
-
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md px-6 py-5 flex justify-between items-center max-w-[1600px] mx-auto">
-        <span className="font-bold text-xl tracking-tighter">Prayag.</span>
-        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full hover:bg-rose-500/10 transition-colors">
-          {isDark ? <Sun size={20} className="text-rose-400" /> : <Moon size={20} className="text-zinc-600" />}
-        </button>
-      </nav>
-
-      <main className="w-[92%] max-w-[1600px] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 xl:px-16 pt-32 pb-28 space-y-28 md:space-y-36">
+      {/* Custom Arrow Cursor */}
+<div
+  className="fixed pointer-events-none z-[100] w-9 h-9 transition-transform duration-100 ease-out sm:opacity-100 opacity-0"
+  style={{
+    left: `${mousePos.x}px`,
+    top: `${mousePos.y}px`,
+    backgroundImage: `url('/image/arrow.png')`,
+    backgroundSize: '100% 100%',
+    backgroundRepeat: 'no-repeat',
+    transform: 'translate(-30%, -30%)', // ← most popular sweet spot for arrows
+    willChange: 'transform',
+    imageRendering: 'auto', // change to 'pixelated' if it's pixel art
+  }}
+/>
 
         {/* Hero Section */}
         <section className="space-y-8 animate-fade-in">
