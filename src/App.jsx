@@ -89,6 +89,13 @@ export default function Portfolio() {
       </nav>
 
       <main className="max-w-3xl mx-auto px-6 pt-32 pb-20 space-y-24">
+
+        {/* Small Cursor Dot */}
+<div 
+  className="fixed pointer-events-none z-[100] w-2 h-2 rounded-full bg-rose-500 -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 opacity-0 sm:opacity-100"
+  style={{ left: mousePos.x, top: mousePos.y }}
+/>
+
         
         {/* Hero Section */}
         <section className="space-y-8 animate-fade-in">
