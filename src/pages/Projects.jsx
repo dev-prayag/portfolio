@@ -7,6 +7,7 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('All');
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     const fetchAllRepos = async () => {
@@ -128,6 +129,11 @@ export default function Projects() {
           </div>
         )}
       </div>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        * { cursor: none !important; }
+      `}} />
     </div>
   );
 }

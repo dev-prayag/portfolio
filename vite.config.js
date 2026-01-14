@@ -7,6 +7,10 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5000,
-    allowedHosts: 'all'
+    allowedHosts: [
+      'all',
+      '.replit.dev',
+      'ecd83201-215b-4725-8ce8-809eb76e0e8-1pnndwsrcjgy9.pike.replit.dev'
+      ]
   }
 })

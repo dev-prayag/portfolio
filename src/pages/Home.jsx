@@ -413,13 +413,13 @@ export default function Home() {
         © {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.
       </footer>
 
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-fade-in { animation: fadeIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-marquee { animation: marquee 45s linear infinite; }
         * { cursor: none !important; }
-      `}</style>
+      `}} />
     </div>
   );
 }
