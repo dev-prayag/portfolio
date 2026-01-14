@@ -11,6 +11,7 @@ import {
   Send,
   Trophy
 } from 'lucide-react';
+import arrowCursor from './image/arrow.png';
 
 const DiscordIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +87,7 @@ export default function Portfolio() {
           left: `${mousePos.x}px`,
           top: `${mousePos.y}px`,
           transform: 'translate(-35%, -35%)',
-          backgroundImage: `url('./image/arrow.png')`,
+          backgroundImage: `url(${arrowCursor})`,
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
