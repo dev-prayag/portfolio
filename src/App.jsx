@@ -124,7 +124,7 @@ export default function Portfolio() {
   } to-transparent`}></div>
   
   <div className="flex overflow-hidden group">
-    {/* Added 'group-hover:[animation-play-state:paused]' to enable pause on hover */}
+    {/* Added 'group-hover:[animation-play-state:paused]' to pause the marquee when hovering */}
     <div className="flex animate-marquee whitespace-nowrap gap-12 items-center py-2 group-hover:[animation-play-state:paused]">
       {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
         <span 
