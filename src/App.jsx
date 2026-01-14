@@ -73,20 +73,38 @@ export default function Portfolio() {
     <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-rose-500/30 overflow-x-hidden
       ${isDark ? 'bg-[#080808] text-zinc-100' : 'bg-[#f8f8f8] text-zinc-900'}`}>
 
-      {/* Custom Arrow Cursor */}
-<div
-  className="fixed pointer-events-none z-[100] w-9 h-9 transition-transform duration-100 ease-out sm:opacity-100 opacity-0"
-  style={{
-    left: `${mousePos.x}px`,
-    top: `${mousePos.y}px`,
-    backgroundImage: `url('/image/arrow.png')`,
-    backgroundSize: '100% 100%',
-    backgroundRepeat: 'no-repeat',
-    transform: 'translate(-30%, -30%)', // ← most popular sweet spot for arrows
-    willChange: 'transform',
-    imageRendering: 'auto', // change to 'pixelated' if it's pixel art
-  }}
-/>
+      {/* Custom Cursor Glow (big background effect) */}
+      <div
+        className="fixed pointer-events-none z-[99] w-[450px] h-[450px] rounded-full bg-rose-500/5 blur-[120px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 sm:opacity-100"
+        style={{ left: mousePos.x, top: mousePos.y }}
+      />
+
+      {/* Custom Arrow Cursor with glow + shadow */}
+      <div
+        className="fixed pointer-events-none z-[100] w-10 h-10 sm:w-11 sm:h-11 transition-all duration-75 ease-out opacity-0 sm:opacity-100"
+        style={{
+          left: `${mousePos.x}px`,
+          top: `${mousePos.y}px`,
+          transform: 'translate(-35%, -35%)',
+          backgroundImage: `url('/image/arrow.png')`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          filter: isDark 
+            ? 'drop-shadow(0 0 6px rgba(244, 63, 94, 0.7)) brightness(1.15)'
+            : 'drop-shadow(0 0 5px rgba(225, 29, 72, 0.6)) brightness(0.95)',
+          willChange: 'transform, filter',
+        }}
+      />
+
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-md px-6 py-5 flex justify-between items-center max-w-[1600px] mx-auto">
+        <span className="font-bold text-xl tracking-tighter">Prayag.</span>
+        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full hover:bg-rose-500/10 transition-colors">
+          {isDark ? <Sun size={20} className="text-rose-400" /> : <Moon size={20} className="text-zinc-600" />}
+        </button>
+      </nav>
+
+      <main className="w-[92%] max-w-[1600px] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 xl:px-16 pt-32 pb-28 space-y-28 md:space-y-36">
 
         {/* Hero Section */}
         <section className="space-y-8 animate-fade-in">
@@ -117,10 +135,7 @@ export default function Portfolio() {
                 <span
                   key={i}
                   className={`text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-2
-                    ${isDark
-                      ? 'text-zinc-100 opacity-20 group-hover:opacity-60'
-                      : 'text-zinc-900 opacity-30 group-hover:opacity-70'
-                    } group-hover:text-rose-500`}
+                    ${isDark ? 'text-zinc-100 opacity-20 group-hover:opacity-60' : 'text-zinc-900 opacity-30 group-hover:opacity-70'} group-hover:text-rose-500`}
                 >
                   <span className="w-1 h-1 rounded-full bg-current"></span>
                   {tech}
