@@ -76,7 +76,7 @@ export default function Home() {
   const topProjects = repos.slice(0, 5);
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-rose-500/30 overflow-x-hidden
+    <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-rose-500/30 overflow-x-hidden animate-fade-in
       ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-[#fafafa] text-zinc-900'}`}>
 
       {/* Cursor glow */}
@@ -172,7 +172,7 @@ export default function Home() {
       <main className="w-[92%] max-w-[1600px] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 xl:px-16 pt-32 pb-32 space-y-32 md:space-y-40">
 
         {/* Hero */}
-        <section className="space-y-10 pt-10">
+        <section className="space-y-10 pt-10 animate-fade-in">
           <div className={`inline-flex items-center gap-3 px-5 py-2 rounded-full border backdrop-blur-md transition-colors
             ${isDark ? 'bg-rose-500/10 border-rose-500/25 text-rose-400' : 'bg-rose-100 border-rose-200 text-rose-700'}`}>
             <span className="relative flex h-3 w-3">
@@ -214,7 +214,7 @@ export default function Home() {
         </section>
 
         {/* Featured Projects */}
-        <section id="projects" className="space-y-14 scroll-mt-24 relative">
+        <section id="projects" className="space-y-14 scroll-mt-24 relative animate-fade-in">
           <div className="relative">
             <p className={`font-bold text-sm uppercase tracking-[0.3em] mb-2 transition-colors
               ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
@@ -321,7 +321,7 @@ export default function Home() {
         </section>
 
         {/* Contact section */}
-        <section id="contact" className="space-y-12 scroll-mt-24 relative">
+        <section id="contact" className="space-y-12 scroll-mt-24 relative animate-fade-in">
           <div className="relative">
             <p className={`text-rose-500 font-bold text-sm uppercase tracking-[0.2em] mb-2 transition-colors
               ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
@@ -412,7 +412,20 @@ export default function Home() {
 
       <footer className={`py-16 text-center text-sm font-mono tracking-wider border-t transition-colors
         ${isDark ? 'border-zinc-800/40 text-zinc-500' : 'border-zinc-200 text-zinc-500'}`}>
-        © {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex items-center gap-6">
+            <a
+              href="https://github.com/dev-prayag"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`transition-all duration-300 hover:scale-110 ${isDark ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-zinc-900'}`}
+              aria-label="GitHub Profile"
+            >
+              <Github size={24} />
+            </a>
+          </div>
+          <p>© {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.</p>
+        </div>
       </footer>
 
       <style dangerouslySetInnerHTML={{ __html: `

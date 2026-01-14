@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, Search, Star, ArrowLeft } from 'lucide-react';
+import { ExternalLink, Search, Star, ArrowLeft, Github } from 'lucide-react';
 
 export default function Projects() {
   const [repos, setRepos] = useState([]);
@@ -50,7 +50,7 @@ export default function Projects() {
   });
 
   return (
-    <div className={`min-h-screen pt-24 pb-20 px-6 md:px-12 transition-colors duration-500
+    <div className={`min-h-screen pt-24 pb-20 px-6 md:px-12 transition-colors duration-500 animate-fade-in
       ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-[#fafafa] text-zinc-900'}`}>
 
       <div className="max-w-7xl mx-auto">
@@ -162,6 +162,23 @@ export default function Projects() {
           </div>
         )}
       </div>
+      <footer className={`py-16 text-center text-sm font-mono tracking-wider border-t transition-colors
+        ${isDark ? 'border-zinc-800/40 text-zinc-500' : 'border-zinc-200 text-zinc-500'}`}>
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex items-center gap-6">
+            <a
+              href="https://github.com/dev-prayag"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`transition-all duration-300 hover:scale-110 ${isDark ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-zinc-900'}`}
+              aria-label="GitHub Profile"
+            >
+              <Github size={24} />
+            </a>
+          </div>
+          <p>© {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.</p>
+        </div>
+      </footer>
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
