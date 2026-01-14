@@ -11,8 +11,7 @@ import {
   Send,
   Trophy,
   Menu,
-  X,
-  Search
+  X
 } from 'lucide-react';
 
 const DiscordIcon = ({ size = 20 }) => (
@@ -24,7 +23,7 @@ const DiscordIcon = ({ size = 20 }) => (
 const TECH_STACK = [
   "React", "TypeScript", "Node.js", "Python", "Next.js",
   "Tailwind CSS", "C++", "Rust", "Capcut", "Alight Motion", "After Effects",
-  "PostgreSQL", "Docker", "Motion Design", "Figma", "MongDB", "Rust"
+  "PostgreSQL", "Docker", "Motion Design", "Figma", "MongoDB", "Rust"
 ];
 
 export default function Portfolio() {
@@ -51,9 +50,8 @@ export default function Portfolio() {
         const data1 = await res1.json();
         const data2 = await res2.json();
         const combined = [...(Array.isArray(data1) ? data1 : []), ...(Array.isArray(data2) ? data2 : [])]
-          .filter(repo => !repo.fork && !repo.private)
-          .sort((a, b) => b.stargazers_count - a.stargazers_count)
-          .slice(0, 10);
+          .filter(repo => !repo.fork)
+          .sort((a, b) => b.stargazers_count - a.stargazers_count);
         setRepos(combined);
       } catch (err) {
         console.error("Failed to fetch repos", err);
@@ -70,21 +68,21 @@ export default function Portfolio() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const displayedProjects = repos.slice(0, 5); // Show top 5
+  const topProjects = repos.slice(0, 5);
 
   return (
     <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-rose-500/30 overflow-x-hidden
-      ${isDark ? 'bg-[#080808] text-zinc-100' : 'bg-[#f8f8f8] text-zinc-900'}`}>
+      ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-[#fafafa] text-zinc-900'}`}>
 
-      {/* Custom Cursor Glow */}
+      {/* Glow cursor */}
       <div
-        className="fixed pointer-events-none z-[99] w-[450px] h-[450px] rounded-full bg-rose-500/5 blur-[120px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 sm:opacity-100"
+        className="fixed pointer-events-none z-[99] w-[500px] h-[500px] rounded-full bg-rose-500/4 blur-[140px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 lg:opacity-100"
         style={{ left: mousePos.x, top: mousePos.y }}
       />
 
-      {/* Custom Arrow Cursor */}
+      {/* Arrow cursor */}
       <div
-        className="fixed pointer-events-none z-[100] w-10 h-10 sm:w-11 sm:h-11 transition-all duration-75 ease-out opacity-0 sm:opacity-100"
+        className="fixed pointer-events-none z-[100] w-11 h-11 lg:w-12 lg:h-12 transition-all duration-100 ease-out opacity-0 lg:opacity-100"
         style={{
           left: `${mousePos.x}px`,
           top: `${mousePos.y}px`,
@@ -93,89 +91,109 @@ export default function Portfolio() {
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          filter: isDark 
-            ? 'drop-shadow(0 0 6px rgba(244, 63, 94, 0.7)) brightness(1.15)'
-            : 'drop-shadow(0 0 5px rgba(225, 29, 72, 0.6)) brightness(0.95)',
+          filter: isDark
+            ? 'drop-shadow(0 0 8px rgba(244,63,94,0.8)) brightness(1.18)'
+            : 'drop-shadow(0 0 7px rgba(225,29,72,0.7)) brightness(0.9)',
           willChange: 'transform, filter',
         }}
       />
 
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-lg bg-black/30 border-b border-zinc-800/50 px-6 py-5">
-        <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-          <span className="font-bold text-2xl tracking-tight bg-gradient-to-r from-rose-400 to-rose-600 bg-clip-text text-transparent">
+      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-colors duration-500
+        ${isDark ? 'bg-black/40 border-zinc-800/60' : 'bg-white/70 border-zinc-200/70'}`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 lg:px-12 flex items-center justify-between h-20">
+          <span className={`text-2xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-zinc-900'}`}>
             Prayag.
           </span>
 
-          {/* Desktop Nav */}
+          {/* Desktop */}
           <div className="hidden md:flex items-center gap-10">
-            <a href="#projects" className="text-sm font-medium hover:text-rose-400 transition-colors">Projects</a>
-            <a href="#contact" className="text-sm font-medium hover:text-rose-400 transition-colors">Contact</a>
-            <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full hover:bg-rose-500/10 transition-colors">
-              {isDark ? <Sun size={20} className="text-rose-400" /> : <Moon size={20} className="text-zinc-600" />}
+            <a href="#projects" className={`font-medium transition-colors ${isDark ? 'hover:text-rose-400' : 'hover:text-rose-600'}`}>
+              Projects
+            </a>
+            <a href="#contact" className={`font-medium transition-colors ${isDark ? 'hover:text-rose-400' : 'hover:text-rose-600'}`}>
+              Contact
+            </a>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className={`p-2.5 rounded-full transition-colors ${isDark ? 'hover:bg-rose-500/20 text-rose-400' : 'hover:bg-rose-100 text-rose-600'}`}
+              aria-label="Toggle dark mode"
+            >
+              {isDark ? <Sun size={22} /> : <Moon size={22} />}
             </button>
           </div>
 
-          {/* Mobile Hamburger */}
-          <button 
-            className="md:hidden p-2 rounded-lg hover:bg-zinc-800/50"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile */}
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}
+              aria-label="Toggle dark mode"
+            >
+              {isDark ? <Sun size={22} className="text-rose-400" /> : <Moon size={22} className="text-rose-600" />}
+            </button>
+
+            <button
+              className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-black/95 border-b border-zinc-800/50 backdrop-blur-lg py-6 px-6 flex flex-col gap-6">
-            <a href="#projects" className="text-lg font-medium hover:text-rose-400 transition-colors" onClick={() => setIsMenuOpen(false)}>
-              Projects
-            </a>
-            <a href="#contact" className="text-lg font-medium hover:text-rose-400 transition-colors" onClick={() => setIsMenuOpen(false)}>
-              Contact
-            </a>
-            <button 
-              onClick={() => { setIsDark(!isDark); setIsMenuOpen(false); }}
-              className="flex items-center gap-3 text-lg font-medium"
-            >
-              {isDark ? 'Light Mode' : 'Dark Mode'}
-            </button>
+          <div className={`md:hidden border-t transition-colors duration-300
+            ${isDark ? 'bg-black/95 border-zinc-800/70' : 'bg-white/95 border-zinc-200/70'}`}>
+            <div className="py-8 px-8 flex flex-col gap-8">
+              <a href="#projects" className={`text-xl font-medium transition-colors ${isDark ? 'hover:text-rose-400' : 'hover:text-rose-600'}`} onClick={() => setIsMenuOpen(false)}>
+                Projects
+              </a>
+              <a href="#contact" className={`text-xl font-medium transition-colors ${isDark ? 'hover:text-rose-400' : 'hover:text-rose-600'}`} onClick={() => setIsMenuOpen(false)}>
+                Contact
+              </a>
+            </div>
           </div>
         )}
       </nav>
 
-      <main className="w-[92%] max-w-[1600px] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 xl:px-16 pt-32 pb-28 space-y-32">
+      <main className="w-[92%] max-w-[1600px] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 xl:px-16 pt-32 pb-32 space-y-32 md:space-y-40">
 
-        {/* Hero Section */}
-        <section className="space-y-8 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium backdrop-blur-sm">
+        {/* Hero */}
+        <section className="space-y-10 pt-10">
+          <div className={`inline-flex items-center gap-3 px-5 py-2 rounded-full border backdrop-blur-md transition-colors
+            ${isDark ? 'bg-rose-500/10 border-rose-500/25 text-rose-400' : 'bg-rose-100 border-rose-200 text-rose-700'}`}>
             <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-40"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-50"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-600"></span>
             </span>
             Available for work
           </div>
-          <div className="space-y-5">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05]">
-              Programmer <br/>
-              <span className="text-zinc-500 dark:text-zinc-700">& Editor.</span>
+
+          <div className="space-y-6">
+            <h1 className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.05]
+              ${isDark ? 'text-white' : 'text-zinc-900'}`}>
+              Programmer<br />& Motion Editor.
             </h1>
-            <p className={`text-xl max-w-3xl leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+            <p className={`text-lg sm:text-xl md:text-2xl max-w-3xl leading-relaxed transition-colors
+              ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
               Building open-source tools and high-performance applications.  
               Currently exploring the intersection of code and visual motion.
             </p>
           </div>
         </section>
 
-        {/* TECH STACK MARQUEE */}
-        <section className="py-6 relative">
+        {/* Tech stack */}
+        <section className="py-8 relative">
           <div className="flex overflow-hidden group">
-            <div className="flex animate-marquee whitespace-nowrap gap-16 items-center py-3 group-hover:[animation-play-state:paused]">
+            <div className="flex animate-marquee whitespace-nowrap gap-16 items-center py-4 group-hover:[animation-play-state:paused]">
               {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
                 <span
                   key={i}
-                  className={`text-sm font-bold uppercase tracking-[0.4em] transition-all duration-500 flex items-center gap-3
-                    ${isDark ? 'text-zinc-100 opacity-30 group-hover:opacity-70' : 'text-zinc-900 opacity-40 group-hover:opacity-80'} group-hover:text-rose-400`}
+                  className={`text-sm md:text-base font-bold uppercase tracking-[0.4em] transition-colors duration-500 flex items-center gap-3
+                    ${isDark ? 'text-zinc-300/50 group-hover:text-zinc-100/80' : 'text-zinc-700/60 group-hover:text-zinc-800/90'} group-hover:text-rose-500`}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                   {tech}
@@ -185,130 +203,221 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* PROJECTS SECTION - Improved */}
-        <section id="projects" className="space-y-12 scroll-mt-24">
-          <div className="flex items-end justify-between">
+        {/* Projects */}
+        <section id="projects" className="space-y-14 scroll-mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div>
-              <p className="text-rose-500 font-bold text-sm uppercase tracking-[0.25em] mb-2">Showcase</p>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+              <p className={`font-bold text-sm uppercase tracking-[0.3em] mb-2 transition-colors
+                ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
+                SHOWCASE
+              </p>
+              <h2 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r bg-clip-text text-transparent
+                ${isDark ? 'from-white via-zinc-200 to-zinc-400' : 'from-zinc-900 via-zinc-700 to-zinc-500'}`}>
                 Featured Projects
               </h2>
             </div>
-            <a
-              href="/projects"
-              className="hidden sm:flex items-center gap-2 px-6 py-3 rounded-full bg-rose-600/10 hover:bg-rose-600/20 border border-rose-500/30 text-rose-400 font-medium transition-all hover:scale-105 active:scale-95"
-            >
-              View All Projects
-              <ArrowUpRight size={16} />
-            </a>
+
+            {repos.length > 5 && (
+              <a
+                href="/projects"
+                className={`flex items-center gap-2 px-7 py-3.5 rounded-full font-medium transition-all hover:scale-105 active:scale-95
+                  ${isDark ? 'bg-rose-600/15 hover:bg-rose-600/25 border-rose-500/30 text-rose-300 hover:text-rose-200' : 'bg-rose-100 hover:bg-rose-200 border-rose-300 text-rose-700 hover:text-rose-800'}`}
+              >
+                View All Projects ({repos.length})
+                <ArrowUpRight size={18} />
+              </a>
+            )}
           </div>
 
           <div className="grid gap-8 md:gap-10 lg:gap-12">
             {loading ? (
-              <div className="col-span-full h-64 flex items-center justify-center animate-pulse text-zinc-500 font-mono text-lg">
-                Loading awesome projects...
+              <div className="h-80 flex flex-col items-center justify-center gap-5 animate-pulse">
+                <div className={`w-20 h-20 rounded-full ${isDark ? 'bg-rose-500/20' : 'bg-rose-200/40'}`}></div>
+                <div className={`text-lg font-medium ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                  Loading projects...
+                </div>
               </div>
-            ) : displayedProjects.length > 0 ? (
-              displayedProjects.map((repo, idx) => (
+            ) : topProjects.length > 0 ? (
+              topProjects.map((repo, idx) => (
                 <a
                   key={repo.id}
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`group relative overflow-hidden p-8 lg:p-10 rounded-3xl border transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/20
-                    ${isDark 
-                      ? 'bg-gradient-to-br from-zinc-950 to-[#0f0f0f] border-zinc-800/60 hover:border-rose-500/40' 
-                      : 'bg-white border-zinc-200 hover:border-rose-400/40'}`}
+                  className={`group relative overflow-hidden p-8 lg:p-10 rounded-3xl border transition-all duration-500 hover:scale-[1.015] hover:-translate-y-2 hover:shadow-2xl
+                    ${isDark
+                      ? 'bg-gradient-to-br from-zinc-950 via-[#0a0a0a] to-[#0f0f0f] border-zinc-800/70 hover:border-rose-500/50 hover:shadow-rose-900/30'
+                      : 'bg-white border-zinc-200 hover:border-rose-400/60 hover:shadow-rose-500/20 shadow-md'}`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  
+                  <div className={`absolute inset-0 bg-gradient-to-br from-rose-500/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none
+                    ${isDark ? '' : 'from-rose-400/8'}`} />
+
                   <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                        #{idx + 1}
-                      </span>
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`flex items-center justify-center w-11 h-11 rounded-2xl font-bold text-lg border
+                        ${isDark
+                          ? 'bg-rose-500/15 text-rose-300 border-rose-500/25'
+                          : 'bg-rose-100 text-rose-700 border-rose-300'}`}>
+                        {idx + 1}
+                      </div>
                       {repo.language && (
-                        <span className="text-xs font-medium px-3 py-1 rounded-full bg-zinc-800/40 text-zinc-300">
+                        <span className={`px-4 py-1.5 rounded-full text-sm font-medium
+                          ${isDark ? 'bg-zinc-800/60 text-zinc-300' : 'bg-zinc-100 text-zinc-700'}`}>
                           {repo.language}
                         </span>
                       )}
                     </div>
 
-                    <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-3 group-hover:text-rose-400 transition-colors">
+                    <h3 className={`text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-4 group-hover:text-rose-400 transition-colors
+                      ${isDark ? 'text-white' : 'text-zinc-900'}`}>
                       {repo.name.replace(/-/g, ' ')}
                     </h3>
 
-                    <p className={`text-base md:text-lg mb-6 line-clamp-2 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                    <p className={`text-base md:text-lg lg:text-xl mb-8 line-clamp-3
+                      ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
                       {repo.description || "Innovative open-source experiment."}
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-6">
-                        <span className="flex items-center gap-2 text-sm font-medium text-rose-400">
-                          <Star size={16} fill="currentColor" /> {repo.stargazers_count}
+                      <div className="flex items-center gap-7 text-sm">
+                        <span className={`flex items-center gap-2 font-medium
+                          ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
+                          <Star size={18} fill="currentColor" /> {repo.stargazers_count}
                         </span>
-                        <span className="text-sm text-zinc-500">
+                        <span className={isDark ? 'text-zinc-500' : 'text-zinc-600'}>
                           {repo.owner.login}
                         </span>
                       </div>
-                      <div className="opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300">
-                        <ExternalLink size={20} className="text-rose-400" />
+
+                      <div className="opacity-0 group-hover:opacity-100 translate-x-8 group-hover:translate-x-0 transition-all duration-400">
+                        <ExternalLink size={26} className={isDark ? 'text-rose-400' : 'text-rose-600'} />
                       </div>
                     </div>
                   </div>
                 </a>
               ))
             ) : (
-              <p className="text-center text-zinc-500 py-20">No public repositories found.</p>
+              <div className={`text-center py-24 text-xl ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                No public repositories found at the moment...
+              </div>
             )}
-          </div>
-
-          <div className="flex justify-center mt-12">
-            <a
-              href="/projects"
-              className="flex items-center gap-3 px-8 py-4 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-lg shadow-rose-900/30 transition-all hover:scale-105 active:scale-95"
-            >
-              View All Projects
-              <ArrowUpRight size={18} />
-            </a>
           </div>
         </section>
 
-        {/* Future Projects Page Hint (you can create separate page later) */}
-        {/* 
-        <section id="all-projects" className="hidden">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-4xl font-bold">All Projects</h2>
-            <div className="relative max-w-md w-full">
-              <input
-                type="text"
-                placeholder="Search projects..."
-                className="w-full pl-12 pr-4 py-3 rounded-full bg-zinc-900/60 border border-zinc-700 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/30 outline-none"
-              />
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
-            </div>
-          </div>
-          {/* Here you would map ALL repos with search filtering */}
-        {/* </section> */}
-
-        {/* CONNECT SECTION */}
+        {/* Contact Section - full original cards + collab box */}
         <section id="contact" className="space-y-12 scroll-mt-24">
-          {/* ... your existing contact section remains the same ... */}
-          {/* (keeping it unchanged as you didn't ask to modify it) */}
+          <div>
+            <p className={`text-rose-500 font-bold text-sm uppercase tracking-[0.2em] mb-2 transition-colors
+              ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
+              Contact
+            </p>
+            <h2 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors
+              ${isDark ? 'text-white' : 'text-zinc-900'}`}>
+              Connect with me
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Email Card */}
+            <div className={`flex items-center gap-4 p-6 rounded-2xl border transition-all duration-300 group hover:-translate-y-1
+              ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] hover:border-rose-500/30' : 'bg-white border-zinc-200 hover:shadow-xl'}`}>
+              <div className={`p-4 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-rose-500' : 'bg-zinc-100 text-zinc-600'}`}>
+                <Mail size={24} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase font-bold tracking-widest opacity-50">Email</span>
+                <span className="font-medium text-base mt-1">prayagfx@gmail.com</span>
+              </div>
+            </div>
+
+            {/* GitHub Card */}
+            <a
+              href="https://github.com/dev-prayag"
+              target="_blank"
+              rel="noreferrer"
+              className={`flex items-center gap-4 p-6 rounded-2xl border transition-all duration-300 group hover:-translate-y-1
+                ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)] hover:border-zinc-400' : 'bg-white border-zinc-200 hover:shadow-xl'}`}
+            >
+              <div className={`p-4 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-white' : 'bg-zinc-100 text-zinc-600'}`}>
+                <Github size={24} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase font-bold tracking-widest opacity-50">GitHub</span>
+                <span className="font-medium text-base mt-1">@dev-prayag</span>
+              </div>
+            </a>
+
+            {/* Discord Card */}
+            <button
+              onClick={copyDiscord}
+              className={`flex items-center gap-4 p-6 rounded-2xl border text-left transition-all duration-300 group hover:-translate-y-1
+                ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(88,101,242,0.4)] hover:border-[#5865F2]/50' : 'bg-white border-zinc-200 hover:shadow-xl'}`}
+            >
+              <div className={`p-4 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-[#5865F2]' : 'bg-zinc-100 text-zinc-600'}`}>
+                {copied ? <Check size={24} className="text-emerald-500" /> : <DiscordIcon size={24} />}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase font-bold tracking-widest opacity-50">Discord</span>
+                <span className="font-medium text-base mt-1">
+                  {copied ? 'Copied!' : 'prayag.void'}
+                </span>
+              </div>
+            </button>
+          </div>
+
+          {/* Collaboration Box */}
+          <div className={`mt-12 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] relative overflow-hidden group border transition-all duration-500
+            ${isDark ? 'bg-gradient-to-br from-[#120808] to-[#080808] border-rose-500/10 hover:border-rose-500/30' : 'bg-rose-50/70 border-rose-200 hover:border-rose-300'}`}>
+            <div className="relative z-10 space-y-6">
+              <div className="flex items-center gap-3 text-rose-500 text-sm font-bold uppercase tracking-widest">
+                <div className="h-2.5 w-2.5 rounded-full bg-rose-500 animate-pulse"></div>
+                Available for work
+              </div>
+              <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-zinc-900'}`}>
+                Let's collaborate
+              </h2>
+              <p className={`text-base md:text-lg ${isDark ? 'opacity-70' : 'opacity-80'}`}>
+                Available for ur gandmasti.
+              </p>
+              <a
+                href="mailto:prayagfx@gmail.com"
+                className={`mt-6 w-full py-5 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all active:scale-95 shadow-lg
+                  ${isDark
+                    ? 'bg-rose-600 text-white hover:bg-rose-500 shadow-rose-900/40'
+                    : 'bg-rose-500 text-white hover:bg-rose-600 shadow-rose-700/30'}`}
+              >
+                <Send size={20} /> Send me an email <ArrowUpRight size={20} />
+              </a>
+            </div>
+            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-rose-500/8 blur-[140px] rounded-full group-hover:bg-rose-500/15 transition-all duration-700"></div>
+          </div>
         </section>
 
       </main>
 
-      <footer className="py-16 text-center opacity-40 text-sm font-mono tracking-wider border-t border-zinc-800/50 mt-20">
+      <footer className={`py-16 text-center text-sm font-mono tracking-wider border-t transition-colors
+        ${isDark ? 'border-zinc-800/40 text-zinc-500' : 'border-zinc-200 text-zinc-500'}`}>
         © {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.
       </footer>
 
       <style jsx global>{`
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-fade-in { animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-marquee { animation: marquee 40s linear infinite; }
-        * { cursor: none !important; }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes marquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-marquee {
+          animation: marquee 45s linear infinite;
+        }
+        * {
+          cursor: none !important;
+        }
       `}</style>
     </div>
   );
