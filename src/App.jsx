@@ -25,7 +25,7 @@ const TECH_STACK = [
   "PostgreSQL", "Docker", "Motion Design", "Figma", "MongoDB", "Rust"
 ];
 
-export default function App() {
+export default function Portfolio() {
   const [isDark, setIsDark] = useState(true);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
