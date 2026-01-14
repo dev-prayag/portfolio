@@ -7,7 +7,7 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('All');
-  const [isDark, setIsDark] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchAllRepos = async () => {
@@ -73,24 +73,41 @@ export default function Projects() {
             />
           </div>
 
-          <div className="relative group min-w-[160px]">
-            <select
-              value={selectedLanguage}
-              onChange={e => setSelectedLanguage(e.target.value)}
-              className={`w-full appearance-none px-5 py-3 rounded-xl border focus:outline-none focus:ring-2 transition-all cursor-pointer
-                ${isDark ? 'bg-zinc-900/60 border-zinc-700 text-white focus:ring-rose-500/40' : 'bg-white border-zinc-300 text-zinc-900 focus:ring-rose-400/40'}`}
+          <div className="relative min-w-[180px]">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={`w-full flex items-center justify-between px-5 py-3 rounded-xl border transition-all
+                ${isDark ? 'bg-zinc-900/60 border-zinc-700 text-white' : 'bg-white border-zinc-300 text-zinc-900'}`}
             >
-              {languages.map(lang => (
-                <option key={lang} value={lang} className={isDark ? 'bg-zinc-950' : 'bg-white'}>
-                  {lang || 'Unknown'}
-                </option>
-              ))}
-            </select>
-            <div className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none transition-colors ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <span className="font-medium">{selectedLanguage || 'All'}</span>
+              <svg 
+                className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              >
                 <path d="m6 9 6 6 6-6"/>
               </svg>
-            </div>
+            </button>
+
+            {isOpen && (
+              <div className={`absolute top-full mt-2 left-0 right-0 z-[60] py-2 rounded-xl border shadow-xl backdrop-blur-xl animate-fade-in
+                ${isDark ? 'bg-black/90 border-zinc-800 text-zinc-300' : 'bg-white/90 border-zinc-200 text-zinc-700'}`}>
+                {languages.map(lang => (
+                  <button
+                    key={lang}
+                    onClick={() => {
+                      setSelectedLanguage(lang);
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-2.5 text-sm transition-colors
+                      ${selectedLanguage === lang 
+                        ? (isDark ? 'text-rose-400 bg-rose-500/10' : 'text-rose-600 bg-rose-50') 
+                        : (isDark ? 'hover:bg-zinc-800/50 hover:text-white' : 'hover:bg-zinc-100 hover:text-zinc-900')}`}
+                  >
+                    {lang || 'Unknown'}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
