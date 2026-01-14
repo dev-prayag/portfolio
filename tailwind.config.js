@@ -1,14 +1,10 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  darkMode: 'class',
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       animation: {
-        'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'fade-in': 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         fadeIn: {
