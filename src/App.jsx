@@ -21,8 +21,8 @@ const DiscordIcon = ({ size = 20 }) => (
 
 const TECH_STACK = [
   "React", "TypeScript", "Node.js", "Python", "Next.js", 
-  "Tailwind CSS", "C++", "Rust", "Premiere Pro", "After Effects",
-  "PostgreSQL", "Docker", "Motion Design", "Figma"
+  "Tailwind CSS", "C++", "Rust", "Capcut", "Alight Motion", "After Effects",
+  "PostgreSQL", "Docker", "Motion Design", "Figma", "MongDB", "Rust"
 ];
 
 export default function Portfolio() {
