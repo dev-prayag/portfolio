@@ -113,18 +113,18 @@ export default function Portfolio() {
 
       {/* TECH STACK MARQUEE */}
 <section className="py-4 relative">
-  {/* Left Mask - Removed 'duration-500' for instant theme switching */}
-  <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-r ${
+  {/* Left Fade Mask - Syncs with the 500ms theme transition */}
+  <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none transition-all duration-500 bg-gradient-to-r ${
     isDark ? 'from-[#080808]' : 'from-[#f8f8f8]'
   } to-transparent`}></div>
   
-  {/* Right Mask - Removed 'duration-500' for instant theme switching */}
-  <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-l ${
+  {/* Right Fade Mask - Syncs with the 500ms theme transition */}
+  <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none transition-all duration-500 bg-gradient-to-l ${
     isDark ? 'from-[#080808]' : 'from-[#f8f8f8]'
   } to-transparent`}></div>
   
   <div className="flex overflow-hidden group">
-    {/* 'group-hover:[animation-play-state:paused]' allows for smooth interaction */}
+    {/* The 'group-hover' pause makes it easier to read on hover */}
     <div className="flex animate-marquee whitespace-nowrap gap-12 items-center py-2 group-hover:[animation-play-state:paused]">
       {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
         <span 
