@@ -22,7 +22,7 @@ const DiscordIcon = ({ size = 20 }) => (
 const TECH_STACK = [
   "React", "TypeScript", "Node.js", "Python", "Next.js", 
   "Tailwind CSS", "C++", "Rust", "Capcut", "Alight Motion", "After Effects",
-  "PostgreSQL", "Docker", "Motion Design", "Figma", "MongDB", "Rust"
+  "PostgreSQL", "Docker", "Motion Design", "Figma", "MongDB"
 ];
 
 export default function Portfolio() {
@@ -75,133 +75,147 @@ export default function Portfolio() {
       isDark ? 'bg-[#080808] text-zinc-100' : 'bg-[#f8f8f8] text-zinc-900'
     }`}>
       
-      {/* Custom Cursor Glow */}
+      {/* Optimized Background Glow for PC */}
       <div 
-        className="fixed pointer-events-none z-[99] w-[450px] h-[450px] rounded-full bg-rose-500/5 blur-[120px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 sm:opacity-100"
+        className="fixed pointer-events-none z-[0] w-[600px] h-[600px] rounded-full bg-rose-500/5 blur-[140px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 lg:opacity-100"
         style={{ left: mousePos.x, top: mousePos.y }}
       />
 
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md px-6 py-5 flex justify-between items-center max-w-5xl left-1/2 -translate-x-1/2">
-        <span className="font-bold text-xl tracking-tighter">Prayag.</span>
-        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full hover:bg-rose-500/10 transition-colors">
-          {isDark ? <Sun size={20} className="text-rose-400" /> : <Moon size={20} className="text-zinc-600" />}
-        </button>
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-md px-6 lg:px-12 py-6 flex justify-between items-center max-w-7xl left-1/2 -translate-x-1/2">
+        <span className="font-bold text-2xl tracking-tighter">Prayag.</span>
+        <div className="flex items-center gap-8">
+            <div className="hidden md:flex gap-6 text-xs font-bold uppercase tracking-widest opacity-50">
+                <a href="#projects" className="hover:text-rose-500 transition-colors">Projects</a>
+                <a href="#contact" className="hover:text-rose-500 transition-colors">Contact</a>
+            </div>
+            <button onClick={() => setIsDark(!isDark)} className="p-2.5 rounded-xl bg-zinc-500/5 border border-zinc-500/10 hover:bg-rose-500/10 transition-colors">
+              {isDark ? <Sun size={20} className="text-rose-400" /> : <Moon size={20} className="text-zinc-600" />}
+            </button>
+        </div>
       </nav>
 
-      <main className="max-w-3xl mx-auto px-6 pt-32 pb-20 space-y-24">
+      {/* Main Content: Max-width increased for PC layout */}
+      <main className="max-w-6xl mx-auto px-6 pt-40 pb-20 space-y-32">
 
-        {/* Small Cursor Dot */}
-<div 
-  className="fixed pointer-events-none z-[100] w-2 h-2 rounded-full bg-rose-500 -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 opacity-0 sm:opacity-100"
-  style={{ left: mousePos.x, top: mousePos.y }}
-/>
+        {/* Improved Desktop Cursor */}
+        <div 
+          className="fixed pointer-events-none z-[100] w-3 h-3 rounded-full bg-rose-500 -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 mix-blend-difference hidden lg:block"
+          style={{ left: mousePos.x, top: mousePos.y }}
+        />
 
-        
-        {/* Hero Section */}
-        <section className="space-y-8 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/5 border border-rose-500/20 text-rose-400/90 text-xs font-medium backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-30"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
-            </span>
-            Available for work
+        {/* Hero Section: Grid layout for PC */}
+        <section className="grid lg:grid-cols-2 gap-12 items-center animate-fade-in">
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold uppercase tracking-wider">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+              </span>
+              Available for Hire
+            </div>
+            <div className="space-y-4">
+                <h1 className="text-6xl lg:text-8xl font-black tracking-tighter leading-[0.9]">
+                  Programmer <br/>
+                  <span className={`${isDark ? 'text-zinc-800' : 'text-zinc-300'} transition-colors`}>& Editor.</span>
+                </h1>
+                <p className={`text-xl max-w-md leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                  Crafting high-performance web applications and cinematic motion designs with code and precision.
+                </p>
+            </div>
           </div>
-          <div className="space-y-4">
-            <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.05]">
-              Programmer <br/>
-              <span className="text-zinc-500 dark:text-zinc-700">& Editor.</span>
-            </h1>
-            <p className={`text-lg max-w-xl leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-              Building open-source tools and high-performance applications. 
-              Currently exploring the intersection of code and visual motion.
-            </p>
+          <div className="hidden lg:flex justify-end">
+            <div className={`w-72 h-72 border-2 ${isDark ? 'border-zinc-800' : 'border-zinc-200'} rounded-[3rem] rotate-12 hover:rotate-0 transition-transform duration-700 flex items-center justify-center group relative`}>
+                 <div className="absolute inset-4 border border-dashed border-rose-500/30 rounded-[2rem] animate-[spin_20s_linear_infinite]"></div>
+                 <Code2 size={80} className="text-rose-500 opacity-20 group-hover:opacity-100 transition-opacity" />
+            </div>
           </div>
         </section>
 
-      {/* TECH STACK MARQUEE */}
-<section className="py-4 relative">
-  <div className="flex overflow-hidden group">
-    {/* The 'group-hover' pause makes it easier to read on hover */}
-    <div className="flex animate-marquee whitespace-nowrap gap-12 items-center py-2 group-hover:[animation-play-state:paused]">
-      {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
-        <span 
-          key={i} 
-          className={`text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-2 
-            ${isDark 
-              ? 'text-zinc-100 opacity-20 group-hover:opacity-60' 
-              : 'text-zinc-900 opacity-30 group-hover:opacity-70'
-            } group-hover:text-rose-500`}
-        >
-          <span className="w-1 h-1 rounded-full bg-current"></span>
-          {tech}
-        </span>
-      ))}
-    </div>
-  </div>
-</section>
+        {/* TECH STACK: Enhanced Marquee */}
+        <section className="py-4 border-y border-zinc-500/10">
+          <div className="flex overflow-hidden group">
+            <div className="flex animate-marquee whitespace-nowrap gap-16 items-center py-4 group-hover:[animation-play-state:paused]">
+              {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
+                <span key={i} className={`text-sm font-black uppercase tracking-[0.4em] flex items-center gap-3 ${isDark ? 'text-zinc-700 hover:text-rose-500' : 'text-zinc-300 hover:text-rose-500'} transition-colors cursor-default`}>
+                  <div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div>
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
 
-
-        {/* PROJECTS SECTION */}
-        <section className="space-y-8">
-          <div>
-            <p className="text-rose-500 font-bold text-xs uppercase tracking-[0.2em] mb-2">Projects</p>
-            <h2 className="text-4xl font-bold tracking-tight">Public Repos</h2>
+        {/* PROJECTS SECTION: Grid optimization */}
+        <section id="projects" className="space-y-12">
+          <div className="flex justify-between items-end">
+            <div>
+              <p className="text-rose-500 font-bold text-xs uppercase tracking-[0.3em] mb-3">Portfolio</p>
+              <h2 className="text-5xl font-bold tracking-tight">Public Repositories</h2>
+            </div>
+            <div className="hidden md:block text-xs font-mono opacity-30 uppercase tracking-widest">
+                Scrolled to explore / {repos.length} items
+            </div>
           </div>
 
-          <div className="grid gap-6">
+          <div className="grid gap-8">
             {loading ? (
-              <div className="h-40 flex items-center justify-center animate-pulse text-zinc-600 font-mono uppercase tracking-widest text-xs">Fetching projects...</div>
+              <div className="h-64 flex items-center justify-center font-mono text-xs uppercase tracking-[0.5em] opacity-20">Initializing...</div>
             ) : (
               <>
+                {/* Featured Project - Full Width with specific border */}
                 {topProject && (
                   <a 
                     href={topProject.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`group relative overflow-hidden p-10 rounded-[3rem] border transition-all duration-500 hover:-translate-y-2 ${
-                      isDark ? 'bg-gradient-to-br from-[#120808] to-[#0f0f0f] border-rose-500/30 shadow-[0_0_50px_-12px_rgba(225,29,72,0.2)]' : 'bg-white border-rose-100 shadow-xl'
+                    className={`group relative overflow-hidden p-12 rounded-[3.5rem] border-2 transition-all duration-700 hover:-translate-y-2 flex flex-col lg:flex-row gap-8 ${
+                      isDark ? 'bg-[#0c0c0c] border-zinc-800/50 hover:border-rose-500/40 shadow-2xl shadow-black' : 'bg-white border-zinc-100 hover:shadow-2xl'
                     }`}
                   >
-                    <div className="absolute top-8 right-8 text-rose-500 animate-pulse"><Trophy size={24} /></div>
-                    <span className="absolute -top-6 -left-4 text-[12rem] font-black leading-none opacity-[0.04] pointer-events-none select-none italic group-hover:opacity-[0.08] transition-opacity">TOP</span>
-                    <div className="relative z-10 space-y-6">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500 text-white uppercase tracking-tighter">Featured</span>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded border border-rose-500/50 text-rose-500 uppercase tracking-tighter">{topProject.owner.login}</span>
-                        </div>
-                        <h3 className="text-4xl font-bold tracking-tight group-hover:text-rose-500 transition-colors uppercase">{topProject.name.replace(/-/g, ' ')}</h3>
-                        <p className={`text-lg leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>{topProject.description || "Flagship open source project."}</p>
+                    <div className="lg:w-2/3 relative z-10 space-y-6">
+                      <div className="flex items-center gap-3">
+                        <span className="bg-rose-600 text-[10px] font-black px-3 py-1 rounded-full text-white uppercase tracking-tighter">Top Repository</span>
+                        <span className="text-[10px] font-bold px-3 py-1 rounded-full border border-zinc-500/20 text-zinc-500 uppercase">{topProject.language}</span>
                       </div>
-                      <div className="flex items-center justify-between pt-4 border-t border-rose-500/10">
-                        <div className="flex gap-4">
-                          <span className="flex items-center gap-1.5 text-sm font-bold text-rose-500"><Star size={16} fill="currentColor" /> {topProject.stargazers_count} stars</span>
-                          {topProject.language && <span className={`text-sm font-bold ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>{topProject.language}</span>}
-                        </div>
-                        <div className="flex items-center gap-2 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">View Repository <ArrowUpRight size={16} /></div>
+                      <h3 className="text-5xl font-black tracking-tighter group-hover:text-rose-500 transition-colors uppercase">{topProject.name.replace(/-/g, ' ')}</h3>
+                      <p className={`text-xl leading-relaxed max-w-2xl ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>{topProject.description || "A high-performance open-source solution built for the community."}</p>
+                      <div className="flex items-center gap-6 pt-4">
+                        <span className="flex items-center gap-2 text-rose-500 font-bold"><Star size={20} fill="currentColor" /> {topProject.stargazers_count}</span>
+                        <span className="flex items-center gap-2 font-bold opacity-40 hover:opacity-100 transition-opacity">View Details <ArrowUpRight size={18} /></span>
                       </div>
+                    </div>
+                    <div className="lg:w-1/3 flex items-center justify-center opacity-10 group-hover:opacity-100 transition-all duration-700">
+                        <Trophy size={120} className="text-rose-500 group-hover:scale-110 transition-transform" />
                     </div>
                   </a>
                 )}
 
-                <div className="grid gap-4 mt-2">
+                {/* Smaller Repos: 2-column grid for PC */}
+                <div className="grid md:grid-cols-2 gap-6">
                   {otherProjects.map((repo, idx) => (
-                    <a key={repo.id} href={repo.html_url} target="_blank" rel="noopener noreferrer" className={`group relative overflow-hidden p-8 rounded-[2.5rem] border transition-all duration-500 hover:-translate-y-1 ${isDark ? 'bg-[#0f0f0f] border-zinc-800/50 hover:border-rose-500/30' : 'bg-white border-zinc-100 hover:shadow-xl'}`}>
-                      <span className="absolute -top-4 -left-2 text-[8rem] font-black leading-none opacity-[0.03] pointer-events-none select-none italic group-hover:opacity-[0.06] transition-opacity">{idx + 2 < 10 ? `0${idx + 2}` : idx + 2}</span>
-                      <div className="relative z-10">
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-2">
+                    <a 
+                      key={repo.id} 
+                      href={repo.html_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className={`group p-8 rounded-[2.5rem] border-2 transition-all duration-500 hover:-translate-y-1 relative overflow-hidden ${
+                        isDark ? 'bg-[#0f0f0f] border-zinc-800/50 hover:border-rose-500/20' : 'bg-white border-zinc-100 hover:shadow-xl'
+                      }`}
+                    >
+                      <div className="relative z-10 flex flex-col h-full justify-between">
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-start">
                             <h3 className="text-2xl font-bold tracking-tight group-hover:text-rose-500 transition-colors uppercase">{repo.name.replace(/-/g, ' ')}</h3>
-                            <p className={`text-sm max-w-md line-clamp-2 ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>{repo.description || "Experimental open source project."}</p>
+                            <ExternalLink size={18} className="opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all" />
                           </div>
+                          <p className={`text-sm line-clamp-2 leading-relaxed ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>{repo.description || "Experimental development project."}</p>
                         </div>
                         <div className="mt-8 flex items-center justify-between">
-                          <div className="flex gap-3">
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 opacity-40`}>{repo.owner.login}</span>
-                            {repo.language && <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-600'}`}>{repo.language}</span>}
-                            <span className="flex items-center gap-1 text-[11px] font-bold opacity-40"><Star size={12} /> {repo.stargazers_count}</span>
-                          </div>
-                          <div className={`p-3 rounded-full transition-all duration-300 ${isDark ? 'bg-zinc-800 text-zinc-500 group-hover:bg-rose-600 group-hover:text-white' : 'bg-zinc-100 text-zinc-400 group-hover:bg-rose-600 group-hover:text-white'}`}><ExternalLink size={18} /></div>
+                           <div className="flex gap-2">
+                             {repo.language && <span className="text-[9px] font-black px-2 py-0.5 rounded border border-zinc-500/20 uppercase">{repo.language}</span>}
+                             <span className="text-[9px] font-bold flex items-center gap-1 opacity-40"><Star size={10} /> {repo.stargazers_count}</span>
+                           </div>
+                           <span className="text-[10px] font-bold opacity-20 uppercase tracking-widest italic">0{idx + 2}</span>
                         </div>
                       </div>
                     </a>
@@ -212,64 +226,75 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* CONNECT WITH ME SECTION */}
-        <section className="space-y-6">
-          <div>
-            <p className="text-rose-500 font-bold text-xs uppercase tracking-[0.2em] mb-2">Contact</p>
-            <h2 className="text-4xl font-bold tracking-tight">Connect with me</h2>
-          </div>
-          
-          <div className="space-y-3">
-            <div className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 group hover:-translate-y-1 ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] hover:border-rose-500/30' : 'bg-white border-zinc-200 hover:shadow-xl'}`}>
-              <div className={`p-3 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-rose-500' : 'bg-zinc-100 text-zinc-600'}`}><Mail size={20} /></div>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase font-bold tracking-widest opacity-40">Email</span>
-                <span className="font-medium text-sm">prayagfx@gmail.com</span>
-              </div>
+        {/* CONTACT SECTION: Optimized for PC Layout */}
+        <section id="contact" className="grid lg:grid-cols-2 gap-16">
+          <div className="space-y-8">
+            <div>
+              <p className="text-rose-500 font-bold text-xs uppercase tracking-[0.3em] mb-3">Contact</p>
+              <h2 className="text-5xl font-bold tracking-tight">Let's build <br/> something epic.</h2>
             </div>
-
-            <a href="https://github.com/dev-prayag" target="_blank" rel="noreferrer" className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 group hover:-translate-y-1 ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)] hover:border-zinc-400' : 'bg-white border-zinc-200 hover:shadow-xl'}`}>
-              <div className={`p-3 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-white' : 'bg-zinc-100 text-zinc-600'}`}><Github size={20} /></div>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase font-bold tracking-widest opacity-40">GitHub</span>
-                <span className="font-medium text-sm">@dev-prayag</span>
-              </div>
-            </a>
-
-            <button onClick={copyDiscord} className={`w-full flex items-center gap-4 p-4 rounded-2xl border text-left transition-all duration-300 group hover:-translate-y-1 ${isDark ? 'bg-[#0f0f0f] border-zinc-800 hover:shadow-[0_0_30px_-10px_rgba(88,101,242,0.4)] hover:border-[#5865F2]/50' : 'bg-white border-zinc-200 hover:shadow-xl'}`}>
-              <div className={`p-3 rounded-xl transition-colors ${isDark ? 'bg-zinc-900 text-zinc-400 group-hover:text-[#5865F2]' : 'bg-zinc-100 text-zinc-600'}`}>{copied ? <Check size={20} className="text-emerald-500" /> : <DiscordIcon size={20} />}</div>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase font-bold tracking-widest opacity-40">Discord</span>
-                <span className="font-medium text-sm">{copied ? 'Copied to clipboard!' : 'prayag.cake'}</span>
-              </div>
-            </button>
-          </div>
-
-          <div className={`mt-10 p-8 rounded-[2.5rem] relative overflow-hidden group border transition-all duration-500 ${isDark ? 'bg-gradient-to-br from-[#120808] to-[#080808] border-rose-500/10 hover:border-rose-500/30' : 'bg-rose-50/50 border-rose-100'}`}>
-            <div className="relative z-10 space-y-4">
-              <div className="flex items-center gap-2 text-rose-500 text-xs font-bold uppercase tracking-widest"><div className="h-2 w-2 rounded-full bg-rose-500 animate-pulse"></div>Available for work</div>
-              <h2 className="text-3xl font-bold tracking-tight">Let's collaborate</h2>
-              <p className="text-sm opacity-50">Available for ur gandmasti.</p>
-              <a href="mailto:prayagfx@gmail.com" className="mt-4 w-full bg-rose-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-rose-500 transition-all active:scale-[0.98] shadow-lg shadow-rose-900/40">
-                <Send size={18} /> Send me an email <ArrowUpRight size={18} />
+            
+            <div className="grid gap-4">
+              <a href="mailto:prayagfx@gmail.com" className={`flex items-center gap-4 p-5 rounded-3xl border-2 transition-all group ${isDark ? 'bg-zinc-900/50 border-zinc-800 hover:border-rose-500/30' : 'bg-white border-zinc-100 hover:shadow-lg'}`}>
+                <div className="p-3 rounded-2xl bg-rose-500/10 text-rose-500"><Mail size={24} /></div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Email</p>
+                  <p className="font-bold">prayagfx@gmail.com</p>
+                </div>
               </a>
+
+              <button onClick={copyDiscord} className={`flex items-center gap-4 p-5 rounded-3xl border-2 transition-all group w-full text-left ${isDark ? 'bg-zinc-900/50 border-zinc-800 hover:border-indigo-500/30' : 'bg-white border-zinc-100 hover:shadow-lg'}`}>
+                <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-500 group-hover:scale-110 transition-transform">{copied ? <Check size={24} className="text-emerald-500" /> : <DiscordIcon size={24} />}</div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Discord</p>
+                  <p className="font-bold">{copied ? 'Copied Username!' : 'prayag.cake'}</p>
+                </div>
+              </button>
             </div>
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-rose-500/10 blur-[100px] rounded-full group-hover:bg-rose-500/20 transition-all duration-700"></div>
+          </div>
+
+          <div className={`p-10 rounded-[3rem] border-2 relative overflow-hidden flex flex-col justify-center ${isDark ? 'bg-[#0f0f0f] border-rose-500/20 shadow-[0_0_60px_-15px_rgba(225,29,72,0.1)]' : 'bg-rose-50 border-rose-100'}`}>
+             <div className="relative z-10 space-y-6">
+                <h3 className="text-3xl font-black tracking-tighter">Ready to start a project?</h3>
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>I am currently accepting new freelance projects and collaborations. If you're looking for clean code and high-end visuals, let's talk.</p>
+                <a href="mailto:prayagfx@gmail.com" className="bg-rose-600 hover:bg-rose-500 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all hover:gap-5 shadow-xl shadow-rose-900/20 active:scale-95">
+                    SEND A MESSAGE <ArrowUpRight size={20} />
+                </a>
+             </div>
+             {/* Decorative Background for Card */}
+             <div className="absolute -right-10 -bottom-10 opacity-5">
+                <Send size={240} className="-rotate-12" />
+             </div>
           </div>
         </section>
 
       </main>
 
-      <footer className="py-10 text-center opacity-30 text-[10px] font-mono tracking-[0.2em]">
-        © {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.
+      <footer className="py-20 border-t border-zinc-500/5">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 text-[10px] font-black tracking-[0.3em] uppercase">
+            <span>© {new Date().getFullYear()} PRAYAG DESIGN & CODE</span>
+            <div className="flex gap-8">
+                <a href="#" className="hover:text-rose-500 transition-colors">Twitter</a>
+                <a href="#" className="hover:text-rose-500 transition-colors">Instagram</a>
+                <a href="https://github.com/dev-prayag" className="hover:text-rose-500 transition-colors">Github</a>
+            </div>
+            <span>STAY CREATIVE</span>
+        </div>
       </footer>
 
       <style jsx global>{`
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-marquee { animation: marquee 30s linear infinite; }
-        * { cursor: none !important; }
+        .animate-fade-in { animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-marquee { animation: marquee 40s linear infinite; }
+        
+        /* Hide default cursor on PC for custom cursor effect */
+        @media (min-width: 1024px) {
+            * { cursor: none !important; }
+            a, button { cursor: none !important; }
+        }
+
+        html { scroll-behavior: smooth; }
       `}</style>
     </div>
   );
