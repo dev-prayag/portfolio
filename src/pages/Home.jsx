@@ -150,10 +150,10 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="w-[88%] max-w-[1150px] mx-auto pt-52 space-y-52">
+      <main className="w-[88%] max-w-[1150px] mx-auto pt-32 space-y-40">
 
         {/* Hero Section - Perfectly Spaced with Blur Reveal */}
-        <section className="space-y-6 overflow-hidden">
+        <section className="space-y-4 overflow-hidden">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
             className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-[8px] font-black tracking-widest uppercase ${isDark ? 'bg-zinc-900 border-zinc-800 text-rose-500' : 'bg-rose-50 border-rose-100 text-rose-600'}`}>
@@ -181,14 +181,14 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="space-y-10 pt-4">
+        <section id="projects" className="space-y-6 pt-0">
           <div className="flex items-end justify-between">
             <SectionHeader title="Selected Work" badge="Showcase" />
-            <Link to="/projects" className="mb-14 font-black text-[10px] tracking-widest uppercase hover:text-rose-500 transition-colors flex items-center gap-2 group">
+            <Link to="/projects" className="mb-10 font-black text-[10px] tracking-widest uppercase hover:text-rose-500 transition-colors flex items-center gap-2 group">
               View All <ArrowUpRight size={14} className="group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-300"/>
             </Link>
           </div>
-          <div className="grid gap-8">
+          <div className="grid gap-6">
             {loading ? <div className="h-64 animate-pulse bg-zinc-900/10 rounded-[3rem]" /> : 
               repos.slice(0, 4).map((repo, i) => <ProjectCard key={repo.id} repo={repo} index={i} isDark={isDark} />)
             }
@@ -206,11 +206,15 @@ export default function Home() {
             ].map((item) => (
               <motion.div 
                 key={item.id} 
-                whileHover={{ y: -8, backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}
+                whileHover={{ y: -8, scale: 1.02, backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)" }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 onClick={item.id === 'discord' ? copyDiscord : undefined} 
-                className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 ${isDark ? 'bg-zinc-900/30 border-zinc-800/60' : 'bg-white border-zinc-200 hover:shadow-xl'}`}
+                className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 ${isDark ? 'bg-zinc-900/30 border-zinc-800/60 hover:border-rose-500/50' : 'bg-white border-zinc-200 hover:shadow-xl hover:border-rose-500/30'}`}
               >
-                <div className={`w-fit p-4 rounded-xl shadow-lg ${isDark ? 'bg-black text-rose-500' : 'bg-rose-50 text-rose-500'}`}>
+                <div className={`w-fit p-4 rounded-xl shadow-lg transition-transform group-hover:rotate-12 ${isDark ? 'bg-black text-rose-500' : 'bg-rose-50 text-rose-500'}`}>
                   {item.id === 'discord' && copied ? <Check size={20} className="text-emerald-500" /> : item.icon}
                 </div>
                 <div>
