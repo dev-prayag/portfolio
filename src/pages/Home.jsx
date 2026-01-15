@@ -153,28 +153,27 @@ export default function Home() {
       <main className="w-[88%] max-w-[1150px] mx-auto pt-52 space-y-52">
 
         {/* Hero Section - Perfectly Spaced with Blur Reveal */}
-        <section className="space-y-8 overflow-hidden">
+        <section className="space-y-6 overflow-hidden">
           <motion.div 
-            initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
-            className={`inline-flex items-center gap-2.5 px-5 py-2 rounded-full border text-[9px] font-black tracking-widest uppercase ${isDark ? 'bg-zinc-900 border-zinc-800 text-rose-500' : 'bg-rose-50 border-rose-100 text-rose-600'}`}>
+            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+            className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-[8px] font-black tracking-widest uppercase ${isDark ? 'bg-zinc-900 border-zinc-800 text-rose-500' : 'bg-rose-50 border-rose-100 text-rose-600'}`}>
             <span className="relative flex h-2 w-2"><span className="animate-ping absolute h-full w-full rounded-full bg-rose-500 opacity-75"></span><span className="relative rounded-full h-2 w-2 bg-rose-500"></span></span>
             Open for hire
           </motion.div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <motion.h1 
-              initial={{ y: 80, filter: "blur(15px)", opacity: 0 }}
-              animate={{ y: 0, filter: "blur(0px)", opacity: 1 }}
+              initial={{ y: 40, opacity: 0, filter: 'blur(10px)' }}
+              animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ x: 15, textShadow: isDark ? "0 0 35px rgba(244,63,94,0.35)" : "none" }}
-              className="text-7xl md:text-[8.5rem] font-black tracking-tighter leading-[0.85] cursor-default transition-all duration-500"
+              className="text-6xl md:text-[7.5rem] font-black tracking-tighter leading-[0.9] cursor-default"
             >
-              Programmer <br/><span className="text-zinc-500/60">& Editor.</span>
+              Programmer <br/><span className="text-zinc-500/40 italic">& Editor.</span>
             </motion.h1>
             <motion.p 
-              initial={{ y: 30, filter: "blur(8px)", opacity: 0 }}
-              animate={{ y: 0, filter: "blur(0px)", opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-xl md:text-2xl text-zinc-500 max-w-2xl font-medium leading-relaxed"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="text-lg md:text-xl text-zinc-500 max-w-xl font-medium leading-relaxed"
             >
               Building performance-driven web apps and high-fidelity motion graphics. Focused on aesthetics and speed.
             </motion.p>
@@ -182,14 +181,14 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="space-y-16 pt-10">
+        <section id="projects" className="space-y-10 pt-4">
           <div className="flex items-end justify-between">
             <SectionHeader title="Selected Work" badge="Showcase" />
-            <Link to="/projects" className="mb-14 font-black text-[11px] tracking-widest uppercase hover:text-rose-500 transition-colors flex items-center gap-2 group">
-              View All <ArrowUpRight size={18} className="group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-300"/>
+            <Link to="/projects" className="mb-14 font-black text-[10px] tracking-widest uppercase hover:text-rose-500 transition-colors flex items-center gap-2 group">
+              View All <ArrowUpRight size={14} className="group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-300"/>
             </Link>
           </div>
-          <div className="grid gap-10">
+          <div className="grid gap-8">
             {loading ? <div className="h-64 animate-pulse bg-zinc-900/10 rounded-[3rem]" /> : 
               repos.slice(0, 4).map((repo, i) => <ProjectCard key={repo.id} repo={repo} index={i} isDark={isDark} />)
             }
@@ -197,26 +196,26 @@ export default function Home() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="space-y-20 pb-48 pt-10">
+        <section id="contact" className="space-y-12 pb-48 pt-4">
           <SectionHeader title="Get in Touch" badge="Contact" />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { label: 'Email', value: 'prayagfx@gmail.com', icon: <Mail size={22}/>, id: 'email' },
-              { label: 'GitHub', value: '@dev-prayag', icon: <Github size={22}/>, id: 'github' },
-              { label: 'Discord', value: 'prayag.cake', icon: <DiscordIcon size={22}/>, id: 'discord' }
+              { label: 'Email', value: 'prayagfx@gmail.com', icon: <Mail size={20}/>, id: 'email' },
+              { label: 'GitHub', value: '@dev-prayag', icon: <Github size={20}/>, id: 'github' },
+              { label: 'Discord', value: 'prayag.cake', icon: <DiscordIcon size={20}/>, id: 'discord' }
             ].map((item) => (
               <motion.div 
                 key={item.id} 
-                whileHover={{ y: -10, backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}
+                whileHover={{ y: -8, backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}
                 onClick={item.id === 'discord' ? copyDiscord : undefined} 
-                className={`flex flex-col gap-6 p-10 rounded-[2.5rem] border cursor-pointer transition-all duration-500 ${isDark ? 'bg-zinc-900/30 border-zinc-800/60' : 'bg-white border-zinc-200 hover:shadow-xl'}`}
+                className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 ${isDark ? 'bg-zinc-900/30 border-zinc-800/60' : 'bg-white border-zinc-200 hover:shadow-xl'}`}
               >
-                <div className={`w-fit p-5 rounded-2xl shadow-lg ${isDark ? 'bg-black text-rose-500' : 'bg-rose-50 text-rose-500'}`}>
-                  {item.id === 'discord' && copied ? <Check size={22} className="text-emerald-500" /> : item.icon}
+                <div className={`w-fit p-4 rounded-xl shadow-lg ${isDark ? 'bg-black text-rose-500' : 'bg-rose-50 text-rose-500'}`}>
+                  {item.id === 'discord' && copied ? <Check size={20} className="text-emerald-500" /> : item.icon}
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-1">{item.label}</p>
-                  <p className="text-xl font-black tracking-tight">{item.id === 'discord' && copied ? 'Copied!' : item.value}</p>
+                  <p className="text-[9px] font-black uppercase tracking-widest opacity-30 mb-1">{item.label}</p>
+                  <p className="text-lg font-black tracking-tight">{item.id === 'discord' && copied ? 'Copied!' : item.value}</p>
                 </div>
               </motion.div>
             ))}
@@ -224,18 +223,18 @@ export default function Home() {
 
           {/* Call to Action */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }}
-            className={`p-14 md:p-20 rounded-[4rem] relative overflow-hidden border ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-zinc-50 border-zinc-200 shadow-inner'}`}
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            className={`p-10 md:p-16 rounded-[3.5rem] relative overflow-hidden border ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-zinc-50 border-zinc-200 shadow-inner'}`}
           >
-            <div className="relative z-10 space-y-10">
-              <div className="flex items-center gap-3 text-emerald-500 font-black text-[11px] uppercase tracking-[0.3em]"><span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" /> Available for work</div>
-              <div className="space-y-6">
-                <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-tight max-w-2xl">Let's build <br/> something amazing.</h2>
-                <p className="text-zinc-500 text-xl font-medium max-w-lg">Available for ur gandmasti.</p>
+            <div className="relative z-10 space-y-8">
+              <div className="flex items-center gap-3 text-emerald-500 font-black text-[10px] uppercase tracking-[0.3em]"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" /> Available for work</div>
+              <div className="space-y-4">
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight max-w-2xl">Let's build <br/> something amazing.</h2>
+                <p className="text-zinc-500 text-lg font-medium max-w-lg">Available for ur gandmasti.</p>
               </div>
-              <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="mailto:prayagfx@gmail.com" className="inline-flex items-center gap-5 px-12 py-6 bg-rose-500 text-white rounded-[2rem] font-black shadow-2xl shadow-rose-500/40 transition-all text-xl"><Send size={24} /> Send me an email <ArrowUpRight size={24} /></motion.a>
+              <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="mailto:prayagfx@gmail.com" className="inline-flex items-center gap-4 px-10 py-5 bg-rose-500 text-white rounded-[1.5rem] font-black shadow-2xl shadow-rose-500/40 transition-all text-lg"><Send size={20} /> Send me an email <ArrowUpRight size={20} /></motion.a>
             </div>
-            <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-rose-500/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[35rem] h-[35rem] bg-rose-500/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
           </motion.div>
         </section>
       </main>
