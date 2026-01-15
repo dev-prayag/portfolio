@@ -152,7 +152,6 @@ export default function Home() {
           <div className="flex items-center gap-12">
             <button 
               onClick={() => {
-                playClick();
                 document.getElementById('projects').scrollIntoView({behavior: 'smooth'});
               }} 
               className="hidden md:block hover:text-rose-500 transition-colors font-black text-[10px] uppercase tracking-[0.4em]"
@@ -161,7 +160,6 @@ export default function Home() {
             </button>
             <button 
               onClick={() => {
-                playClick();
                 document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
               }} 
               className="hidden md:block hover:text-rose-500 transition-colors font-black text-[10px] uppercase tracking-[0.4em]"
@@ -237,7 +235,6 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 onClick={() => {
-                  playClick();
                   if (item.id === 'discord') copyDiscord();
                 }} 
                 className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 ${isDark ? 'bg-zinc-900/30 border-zinc-800/60 hover:border-rose-500/50' : 'bg-white border-zinc-200 hover:shadow-xl hover:border-rose-500/30'}`}
@@ -265,7 +262,6 @@ export default function Home() {
                 <p className="text-zinc-500 text-lg font-medium max-w-lg">Available for ur gandmasti.</p>
               </div>
               <motion.a 
-                onMouseDown={playClick}
                 whileHover={{ scale: 1.05 }} 
                 whileTap={{ scale: 0.95 }} 
                 href="mailto:prayagfx@gmail.com" 
