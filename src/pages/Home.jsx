@@ -86,8 +86,17 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const audioRef = useRef(new Audio('/audio/click.mp3'));
+
+  const playClick = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(e => console.log("Audio play blocked:", e));
+    }
+  };
 
   const toggleTheme = (e) => {
+    playClick();
     if (!document.startViewTransition) { setIsDark(!isDark); return; }
     const x = e.clientX, y = e.clientY;
     const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
@@ -141,8 +150,24 @@ export default function Home() {
         <div className="max-w-[1300px] mx-auto px-8 flex items-center justify-between h-20">
           <span className="text-xl font-black tracking-tight">Prayag.</span>
           <div className="flex items-center gap-12">
-            <button onClick={() => document.getElementById('projects').scrollIntoView({behavior: 'smooth'})} className="hidden md:block hover:text-rose-500 transition-colors font-black text-[10px] uppercase tracking-[0.4em]">Projects</button>
-            <button onClick={() => document.getElementById('contact').scrollIntoView({behavior: 'smooth'})} className="hidden md:block hover:text-rose-500 transition-colors font-black text-[10px] uppercase tracking-[0.4em]">Contact</button>
+            <button 
+              onClick={() => {
+                playClick();
+                document.getElementById('projects').scrollIntoView({behavior: 'smooth'});
+              }} 
+              className="hidden md:block hover:text-rose-500 transition-colors font-black text-[10px] uppercase tracking-[0.4em]"
+            >
+              Projects
+            </button>
+            <button 
+              onClick={() => {
+                playClick();
+                document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
+              }} 
+              className="hidden md:block hover:text-rose-500 transition-colors font-black text-[10px] uppercase tracking-[0.4em]"
+            >
+              Contact
+            </button>
             <button onClick={toggleTheme} className="p-2.5 rounded-full hover:bg-rose-500/10 text-rose-500 active:scale-90 transition-transform">
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
@@ -211,7 +236,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                onClick={item.id === 'discord' ? copyDiscord : undefined} 
+                onClick={() => {
+                  playClick();
+                  if (item.id === 'discord') copyDiscord();
+                }} 
                 className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 ${isDark ? 'bg-zinc-900/30 border-zinc-800/60 hover:border-rose-500/50' : 'bg-white border-zinc-200 hover:shadow-xl hover:border-rose-500/30'}`}
               >
                 <div className={`w-fit p-4 rounded-xl shadow-lg transition-transform group-hover:rotate-12 ${isDark ? 'bg-black text-rose-500' : 'bg-rose-50 text-rose-500'}`}>
@@ -236,7 +264,13 @@ export default function Home() {
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight max-w-2xl">Let's build <br/> something amazing.</h2>
                 <p className="text-zinc-500 text-lg font-medium max-w-lg">Available for ur gandmasti.</p>
               </div>
-              <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="mailto:prayagfx@gmail.com" className="inline-flex items-center gap-4 px-10 py-5 bg-rose-500 text-white rounded-[1.5rem] font-black shadow-2xl shadow-rose-500/40 transition-all text-lg"><Send size={20} /> Send me an email <ArrowUpRight size={20} /></motion.a>
+              <motion.a 
+                onMouseDown={playClick}
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                href="mailto:prayagfx@gmail.com" 
+                className="inline-flex items-center gap-4 px-10 py-5 bg-rose-500 text-white rounded-[1.5rem] font-black shadow-2xl shadow-rose-500/40 transition-all text-lg"
+              ><Send size={20} /> Send me an email <ArrowUpRight size={20} /></motion.a>
             </div>
             <div className="absolute top-0 right-0 w-[35rem] h-[35rem] bg-rose-500/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
           </motion.div>
