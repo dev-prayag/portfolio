@@ -1,8 +1,8 @@
-// src/pages/Projects.jsx
-import React, { useState, useEffect } from 'react';
+// src/pages/Projects.jsx (Refined Search & Filter Section)
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Search, Star, ArrowLeft, Github } from 'lucide-react';
+import { ExternalLink, Search, Star, ArrowLeft, Sun, Moon, Filter, X } from 'lucide-react';
 
 const CACHE_KEY = 'github_repos_cache';
 const CACHE_TIME = 30 * 60 * 1000;
@@ -33,48 +33,66 @@ export default function Projects() {
   const [selectedLanguage, setSelectedLanguage] = useState('All');
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
 
+  // --- Theme Sync ---
   useEffect(() => {
-    // 1. Sync Theme
     const savedTheme = localStorage.getItem('theme');
-    setIsDark(savedTheme === 'dark' || !savedTheme);
+    const themeIsDark = savedTheme === 'dark' || !savedTheme;
+    setIsDark(themeIsDark);
+  }, []);
 
-    // 2. Fetch with Cache Logic
+  const toggleTheme = (e) => {
+    const newTheme = !isDark;
+    const performToggle = () => {
+      setIsDark(newTheme);
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    };
+    if (!document.startViewTransition) { performToggle(); return; }
+    const x = e.clientX, y = e.clientY;
+    const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    const transition = document.startViewTransition(() => performToggle());
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: "ease-in-out", pseudoElement: "::view-transition-new(root)" }
+      );
+    });
+  };
+
+  // --- Data Fetching ---
+  useEffect(() => {
     const fetchAllRepos = async () => {
       const cachedData = localStorage.getItem(CACHE_KEY);
       if (cachedData) {
         const { data, timestamp } = JSON.parse(cachedData);
-        if (Date.now() - timestamp < CACHE_TIME) {
-          setRepos(data);
-          setLoading(false);
-          return;
-        }
+        if (Date.now() - timestamp < CACHE_TIME) { setRepos(data); setLoading(false); return; }
       }
-
       try {
         const fetchWithCatch = (url) => fetch(url).then(res => res.ok ? res.json() : []);
-        const [data1, data2] = await Promise.all([
+        const [d1, d2] = await Promise.all([
           fetchWithCatch('https://api.github.com/users/dev-prayag/repos'),
           fetchWithCatch('https://api.github.com/users/OpenUwU/repos')
         ]);
-
-        const combined = [...data1, ...data2]
-          .filter(repo => !repo.fork)
-          .sort((a, b) => b.stargazers_count - a.stargazers_count);
-
+        const combined = [...d1, ...d2].filter(r => !r.fork).sort((a, b) => b.stargazers_count - a.stargazers_count);
         setRepos(combined);
         localStorage.setItem(CACHE_KEY, JSON.stringify({ data: combined, timestamp: Date.now() }));
-      } catch (err) {
-        console.error("Failed to fetch repos", err);
-      } finally {
-        setLoading(false);
-      }
+      } catch (err) { console.error(err); } finally { setLoading(false); }
     };
-
     fetchAllRepos();
   }, []);
 
-  const languages = ['All', ...new Set(repos.map(r => r.language).filter(Boolean))];
+  // --- Filter Logic ---
+  const languageStats = useMemo(() => {
+    const stats = { All: repos.length };
+    repos.forEach(r => {
+      if (r.language) stats[r.language] = (stats[r.language] || 0) + 1;
+    });
+    return stats;
+  }, [repos]);
+
+  const languages = Object.keys(languageStats);
+
   const filteredRepos = repos.filter(repo => {
     const matchesSearch = repo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (repo.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
@@ -83,67 +101,120 @@ export default function Projects() {
   });
 
   return (
-    <div className={`min-h-screen pt-24 pb-20 px-6 md:px-12 transition-colors duration-500
-      ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-[#fafafa] text-zinc-900'}`}>
+    <div className={`min-h-screen pt-12 pb-20 px-6 md:px-12 transition-colors duration-700 font-sans
+      ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-[#fcfcfc] text-zinc-950'}`}>
 
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-          <Link to="/" className={`inline-flex items-center gap-2 mb-10 text-sm font-medium transition-colors hover:text-rose-400 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-            <ArrowLeft size={18} /> Back to Home
+        {/* Header */}
+        <div className="flex justify-between items-center mb-20">
+          <Link to="/" className={`inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] transition-colors hover:text-rose-500 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+            <ArrowLeft size={16} /> Back
           </Link>
-        </motion.div>
+          <button onClick={toggleTheme} className={`p-3 rounded-full transition-all active:scale-90 ${isDark ? 'bg-zinc-900 text-rose-500' : 'bg-white border border-zinc-200 shadow-sm'}`}>
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+        </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold mb-10 tracking-tight">
-          <BlurText text="All Projects" className={isDark ? 'text-white' : 'text-zinc-900'} />
-        </h1>
+        <div className="space-y-4 mb-16">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter">
+            <BlurText text="Archive" className={isDark ? 'text-white' : 'text-zinc-950'} />
+          </h1>
+          <p className={`text-lg font-medium opacity-40 ${isDark ? '' : 'text-zinc-600'}`}>
+            Explore {repos.length} public experiments and open-source contributions.
+          </p>
+        </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex flex-col md:flex-row gap-6 mb-12">
-          <div className="relative flex-1 max-w-md">
-            <Search className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`} size={20} />
-            <input
-              type="text"
-              placeholder="Search projects..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className={`w-full pl-12 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 transition-all
-                ${isDark ? 'bg-zinc-900/60 border-zinc-700 text-white focus:ring-rose-500/40' : 'bg-white border-zinc-300 text-zinc-900 focus:ring-rose-400/40'}`}
-            />
+        {/* --- UNIQUE SEARCH & FILTER BAR --- */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+          className="flex flex-col lg:flex-row items-center gap-4 mb-16"
+        >
+          {/* Kinetic Search */}
+          <div className="relative w-full lg:flex-1 group">
+            <motion.div 
+              animate={isFocused ? { scale: 1.01, boxShadow: isDark ? "0 0 40px rgba(244,63,94,0.1)" : "0 10px 30px rgba(0,0,0,0.05)" } : { scale: 1 }}
+              className={`flex items-center gap-4 px-6 py-5 rounded-[2rem] border transition-all duration-500
+                ${isDark ? 'bg-zinc-900/40 border-zinc-800' : 'bg-white border-zinc-200'}`}
+            >
+              <Search className={`transition-colors duration-300 ${isFocused ? 'text-rose-500' : 'opacity-20'}`} size={20} />
+              <input
+                type="text"
+                placeholder="Search by name or tech stack..."
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full bg-transparent border-none focus:outline-none text-sm font-bold tracking-tight placeholder:opacity-30"
+              />
+              {searchTerm && (
+                <button onClick={() => setSearchTerm('')} className="p-1 hover:text-rose-500"><X size={16}/></button>
+              )}
+            </motion.div>
           </div>
 
-          <div className="relative min-w-[180px]">
-            <button onClick={() => setIsOpen(!isOpen)} className={`w-full flex items-center justify-between px-5 py-3 rounded-xl border transition-all ${isDark ? 'bg-zinc-900/60 border-zinc-700' : 'bg-white border-zinc-300'}`}>
-              <span className="font-medium">{selectedLanguage}</span>
-              <motion.svg animate={{ rotate: isOpen ? 180 : 0 }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></motion.svg>
+          {/* Staggered Filter Dropdown */}
+          <div className="relative w-full lg:w-72">
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className={`w-full flex items-center justify-between px-8 py-5 rounded-[2rem] border transition-all duration-500 font-black text-[10px] uppercase tracking-[0.2em]
+                ${isDark ? 'bg-zinc-900/40 border-zinc-800 hover:border-zinc-600' : 'bg-white border-zinc-200 hover:border-rose-200 shadow-sm'}`}
+            >
+              <span className="flex items-center gap-2"><Filter size={14} className="text-rose-500"/> {selectedLanguage}</span>
+              <div className="flex items-center gap-3">
+                <span className="opacity-20">|</span>
+                <motion.div animate={{ rotate: isOpen ? 180 : 0 }}><Filter size={12} className="opacity-40" /></motion.div>
+              </div>
             </button>
+
             <AnimatePresence>
               {isOpen && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className={`absolute top-full mt-2 left-0 right-0 z-[60] py-2 rounded-xl border shadow-xl backdrop-blur-xl ${isDark ? 'bg-black/90 border-zinc-800' : 'bg-white/90 border-zinc-200'}`}>
-                  {languages.map(lang => (
-                    <button key={lang} onClick={() => { setSelectedLanguage(lang); setIsOpen(false); }} className={`w-full text-left px-5 py-2.5 text-sm hover:bg-rose-500/10 hover:text-rose-400 ${selectedLanguage === lang ? 'text-rose-500' : ''}`}>
-                      {lang}
-                    </button>
-                  ))}
+                <motion.div 
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 10, scale: 1 }}
+                  exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                  className={`absolute top-full left-0 right-0 z-[100] p-3 rounded-[2rem] border shadow-2xl backdrop-blur-2xl
+                    ${isDark ? 'bg-zinc-900/95 border-zinc-800' : 'bg-white/95 border-zinc-200'}`}
+                >
+                  <div className="max-h-80 overflow-y-auto custom-scrollbar">
+                    {languages.map((lang, i) => (
+                      <motion.button
+                        key={lang}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.03 }}
+                        onClick={() => { setSelectedLanguage(lang); setIsOpen(false); }}
+                        className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all
+                          ${selectedLanguage === lang 
+                            ? 'bg-rose-500 text-white' 
+                            : isDark ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-rose-50 text-zinc-600 hover:text-rose-500'}`}
+                      >
+                        {lang}
+                        <span className={`text-[9px] opacity-40 ${selectedLanguage === lang ? 'text-white' : ''}`}>
+                          {languageStats[lang]}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+
+          {/* Results Counter */}
+          <div className={`hidden lg:flex items-center px-8 py-5 rounded-[2rem] border font-black text-[10px] uppercase tracking-widest
+            ${isDark ? 'bg-zinc-900/20 border-zinc-800 text-zinc-500' : 'bg-zinc-50 border-zinc-200 text-zinc-400'}`}>
+            Found <span className="text-rose-500 mx-2">{filteredRepos.length}</span> Results
+          </div>
         </motion.div>
 
+        {/* Project Grid */}
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-             <div className="w-12 h-12 border-4 border-rose-500/20 border-t-rose-500 rounded-full animate-spin"></div>
-             <p className="font-mono text-sm tracking-widest opacity-50 uppercase">Loading Data</p>
+          <div className="flex flex-col items-center justify-center py-40 gap-6">
+             <div className="w-10 h-10 border-2 border-rose-500/20 border-t-rose-500 rounded-full animate-spin" />
+             <p className="font-black text-[10px] tracking-[0.5em] opacity-30 uppercase">Building Repository</p>
           </div>
-        ) : filteredRepos.length === 0 ? (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center justify-center py-32 text-center">
-            <div className={`mb-6 p-8 rounded-full border-2 border-dashed ${isDark ? 'border-zinc-800 text-zinc-700' : 'border-zinc-200 text-zinc-300'}`}>
-              <Search size={48} />
-            </div>
-            <h3 className="text-xl font-bold mb-2">No projects found</h3>
-            <p className="opacity-50">Try searching for something else or change the category.</p>
-          </motion.div>
         ) : (
-          <motion.div layout className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
               {filteredRepos.map((repo, idx) => (
                 <motion.a
@@ -151,20 +222,31 @@ export default function Projects() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ delay: idx * 0.05 }}
+                  transition={{ duration: 0.4, delay: idx * 0.02 }}
                   key={repo.id}
                   href={repo.html_url}
                   target="_blank"
-                  className={`group p-6 rounded-2xl border transition-all hover:scale-[1.02] ${isDark ? 'bg-zinc-900/40 border-zinc-800 hover:border-rose-500/40' : 'bg-white border-zinc-200 shadow-sm'}`}
+                  className={`group p-8 rounded-[2.5rem] border transition-all duration-500 hover:scale-[1.02]
+                    ${isDark 
+                      ? 'bg-zinc-900/20 border-zinc-800/50 hover:border-rose-500/30' 
+                      : 'bg-white border-zinc-200/80 shadow-sm hover:shadow-xl hover:border-rose-200'}`}
                 >
-                  <div className="flex justify-between mb-4">
-                    <h3 className="text-xl font-bold group-hover:text-rose-400 transition-colors">{repo.name.replace(/-/g, ' ')}</h3>
-                    <ExternalLink size={18} />
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className={`text-2xl font-black tracking-tight group-hover:text-rose-500 transition-colors capitalize ${isDark ? 'text-zinc-100' : 'text-zinc-950'}`}>
+                      {repo.name.replace(/-/g, ' ')}
+                    </h3>
+                    <ExternalLink size={18} className="opacity-0 group-hover:opacity-100 group-hover:text-rose-500 transition-all -translate-y-1 translate-x-1" />
                   </div>
-                  <p className="mb-6 line-clamp-2 opacity-60 text-sm">{repo.description || "Experimental project."}</p>
-                  <div className="flex justify-between items-center text-xs font-medium">
-                    <span className="px-2 py-1 rounded bg-rose-500/10 text-rose-500">{repo.language || 'Code'}</span>
-                    <span className="flex items-center gap-1"><Star size={14} fill="currentColor" /> {repo.stargazers_count}</span>
+                  <p className={`mb-8 line-clamp-2 text-sm font-medium leading-relaxed ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>
+                    {repo.description || "Experimental open-source project and technical research."}
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-rose-50 text-rose-600'}`}>
+                      {repo.language || 'Logic'}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs font-bold opacity-40 group-hover:opacity-100 transition-opacity">
+                      <Star size={14} className="text-rose-500" fill="currentColor" /> {repo.stargazers_count}
+                    </span>
                   </div>
                 </motion.a>
               ))}
@@ -173,10 +255,16 @@ export default function Projects() {
         )}
       </div>
 
-      <footer className="mt-20 py-10 text-center text-xs opacity-40 font-mono">
-        <p>© {new Date().getFullYear()} PRAYAG. ALL RIGHTS RESERVED.</p>
+      <footer className="mt-40 py-10 text-center">
+        <p className={`text-[10px] font-black tracking-[1em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-300'}`}>PRAYAG — COLLECTION — 2026</p>
       </footer>
-      <style dangerouslySetInnerHTML={{ __html: `* { cursor: none !important; }` }} />
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        * { cursor: none !important; }
+      `}} />
     </div>
   );
 }
