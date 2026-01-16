@@ -295,7 +295,16 @@ export default function Projects() {
       </div>
 
       <footer className="mt-40 py-10 text-center">
-        <p className={`text-[10px] font-black tracking-[1em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-300'}`}>PRAYAG — COLLECTION — 2026</p>
+        <p className={`text-[10px] font-black tracking-[1em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-300'}`}>2026 Prayag.</p>
+        <motion.a
+    href="https://github.com/dev-prayag"
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ y: -3, scale: 1.1 }}
+    className={`transition-colors duration-300 ${isDark ? 'text-zinc-600 hover:text-white' : 'text-zinc-400 hover:text-red-600'}`}
+  >
+    <Github size={22} strokeWidth={1.5} />
+  </motion.a>
       </footer>
 
       <style dangerouslySetInnerHTML={{ __html: `
