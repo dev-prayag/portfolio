@@ -327,28 +327,51 @@ export default function Home() {
           </div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            className={`p-10 md:p-16 rounded-[3.5rem] relative overflow-hidden border ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-white border-zinc-200 shadow-sm'}`}
-          >
-            <div className="relative z-10 space-y-8">
-              <div className="flex items-center gap-3 text-emerald-500 font-black text-[10px] uppercase tracking-[0.3em]"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" /> Available for work</div>
-              <div className="space-y-4">
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight max-w-2xl">Let's build <br/> something amazing.</h2>
-                <p className={`text-lg font-medium max-w-lg ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>Available for your projects.</p>
-              </div>
-              <motion.a 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }} 
-                href="mailto:prayagfx@gmail.com" 
-                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white rounded-[1.5rem] font-black shadow-2xl shadow-red-600/40 transition-all text-lg"
-              ><Send size={20} /> Send me an email <ArrowUpRight size={20} /></motion.a>
-            </div>
-          </motion.div>
+  initial={{ opacity: 0, y: 20 }} 
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  className={`p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden border transition-all duration-500
+    ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-white border-zinc-200/80 shadow-sm'}`}
+>
+  {/* --- THE RED GLOW EFFECT --- */}
+  <div className={`absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[80px] pointer-events-none opacity-20
+    ${isDark ? 'bg-red-600' : 'bg-red-400'}`} 
+  />
+
+  <div className="relative z-10 space-y-6">
+    {/* Availability Badge */}
+    <div className="flex items-center gap-2 text-emerald-500 font-bold text-[10px] uppercase tracking-[0.2em]">
+      <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" /> 
+      Available for work
+    </div>
+
+    {/* Heading & Subtext */}
+    <div className="space-y-3">
+      <h2 className={`text-3xl md:text-5xl font-black tracking-tight leading-[1.1] max-w-xl ${isDark ? 'text-white' : 'text-zinc-950'}`}>
+        Let's build something <br/> amazing together.
+      </h2>
+      <p className={`text-base md:text-lg font-medium opacity-60 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+        Available for your projects.
+      </p>
+    </div>
+
+    {/* Refined Button */}
+    <motion.a 
+      whileHover={{ scale: 1.02, x: 5 }} 
+      whileTap={{ scale: 0.98 }} 
+      href="mailto:prayagfx@gmail.com" 
+      className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-full font-bold transition-all text-sm shadow-lg shadow-red-600/20"
+    >
+      Start a conversation <ArrowUpRight size={18} />
+    </motion.a>
+  </div>
+</motion.div>
+
         </section>
       </main>
 
       <footer className="py-28 text-center border-t border-zinc-800/10">
-        <p className={`text-[11px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}>© 2026 PRAYAG. ALL RIGHTS RESERVED.</p>
+        <p className={`text-[11px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}> 2026 PRAYAG.</p>
       </footer>
 
       <style dangerouslySetInnerHTML={{ __html: `
