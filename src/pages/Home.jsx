@@ -326,46 +326,49 @@ export default function Home() {
             ))}
           </div>
 
-          <motion.div 
+          {/* --- FINAL CTA CARD --- */}
+<motion.div 
   initial={{ opacity: 0, y: 20 }} 
   whileInView={{ opacity: 1, y: 0 }}
   viewport={{ once: true }}
-  className={`p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden border transition-all duration-500
+  // Added mt-16 (mobile) and mt-24 (desktop) to push it down
+  className={`mt-16 md:mt-24 p-8 md:p-14 rounded-[2.5rem] relative overflow-hidden border transition-all duration-500
     ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-white border-zinc-200/80 shadow-sm'}`}
 >
-  {/* --- THE RED GLOW EFFECT --- */}
-  <div className={`absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[80px] pointer-events-none opacity-20
+  {/* The Red Glow Effect */}
+  <div className={`absolute -top-24 -right-24 w-80 h-80 rounded-full blur-[100px] pointer-events-none opacity-20
     ${isDark ? 'bg-red-600' : 'bg-red-400'}`} 
   />
 
-  <div className="relative z-10 space-y-6">
+  <div className="relative z-10 space-y-8">
     {/* Availability Badge */}
     <div className="flex items-center gap-2 text-emerald-500 font-bold text-[10px] uppercase tracking-[0.2em]">
       <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" /> 
       Available for work
     </div>
 
-    {/* Heading & Subtext */}
-    <div className="space-y-3">
-      <h2 className={`text-3xl md:text-5xl font-black tracking-tight leading-[1.1] max-w-xl ${isDark ? 'text-white' : 'text-zinc-950'}`}>
+    {/* Text Content - Adjusted leading for that 'neat' look */}
+    <div className="space-y-4">
+      <h2 className={`text-4xl md:text-5xl font-black tracking-tight leading-[1.1] max-w-xl ${isDark ? 'text-white' : 'text-zinc-950'}`}>
         Let's build something <br/> amazing together.
       </h2>
-      <p className={`text-base md:text-lg font-medium opacity-60 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+      <p className={`text-base md:text-lg font-medium opacity-50 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
         Available for your projects.
       </p>
     </div>
 
-    {/* Refined Button */}
+    {/* Single Icon Button */}
     <motion.a 
-      whileHover={{ scale: 1.02, x: 5 }} 
-      whileTap={{ scale: 0.98 }} 
+      whileHover={{ scale: 1.03 }} 
+      whileTap={{ scale: 0.97 }} 
       href="mailto:prayagfx@gmail.com" 
-      className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-full font-bold transition-all text-sm shadow-lg shadow-red-600/20"
+      className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-full font-bold transition-all text-sm shadow-xl shadow-red-600/20"
     >
       Start a conversation <ArrowUpRight size={18} />
     </motion.a>
   </div>
 </motion.div>
+
 
         </section>
       </main>
