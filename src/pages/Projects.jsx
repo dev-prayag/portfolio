@@ -1,7 +1,6 @@
-// src/pages/Projects.jsx (Refined Search & Filter Section)
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { ExternalLink, Search, Star, ArrowLeft, Sun, Moon, Filter, X } from 'lucide-react';
 
 const CACHE_KEY = 'github_repos_cache';
@@ -34,6 +33,33 @@ export default function Projects() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
+  // --- CUSTOM CURSOR LOGIC ---
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springConfig = { damping: 25, stiffness: 200 };
+  const trailX = useSpring(mouseX, springConfig);
+  const trailY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    const handleMouseOver = (e) => {
+      const target = e.target.closest('button, a, [role="button"], input');
+      setIsHovering(!!target);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleMouseOver);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
+  }, [mouseX, mouseY]);
 
   // --- Theme Sync ---
   useEffect(() => {
@@ -104,13 +130,29 @@ export default function Projects() {
     <div className={`min-h-screen pt-12 pb-20 px-6 md:px-12 transition-colors duration-700 font-sans
       ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-[#fcfcfc] text-zinc-950'}`}>
 
+      {/* --- CUSTOM CURSOR --- */}
+      <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden hidden md:block">
+        <motion.div 
+          style={{ x: trailX, y: trailY, translateX: '-50%', translateY: '-50%' }}
+          animate={{
+            scale: isHovering ? 2.2 : 1,
+            borderColor: isHovering ? 'rgba(220, 38, 38, 0.8)' : 'rgba(220, 38, 38, 0.4)', // Darker Red
+          }}
+          className="absolute w-8 h-8 rounded-full border-2 border-red-600/40"
+        />
+        <motion.div 
+          style={{ x: mouseX, y: mouseY, translateX: '-50%', translateY: '-50%' }}
+          className="absolute w-2 h-2 bg-red-600 rounded-full"
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-20">
-          <Link to="/" className={`inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] transition-colors hover:text-rose-500 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+          <Link to="/" className={`inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] transition-colors hover:text-red-600 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
             <ArrowLeft size={16} /> Back
           </Link>
-          <button onClick={toggleTheme} className={`p-3 rounded-full transition-all active:scale-90 ${isDark ? 'bg-zinc-900 text-rose-500' : 'bg-white border border-zinc-200 shadow-sm'}`}>
+          <button onClick={toggleTheme} className={`p-3 rounded-full transition-all active:scale-90 ${isDark ? 'bg-zinc-900 text-red-600' : 'bg-white border border-zinc-200 shadow-sm'}`}>
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
         </div>
@@ -129,14 +171,13 @@ export default function Projects() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
           className="flex flex-col lg:flex-row items-center gap-4 mb-16"
         >
-          {/* Kinetic Search */}
           <div className="relative w-full lg:flex-1 group">
             <motion.div 
-              animate={isFocused ? { scale: 1.01, boxShadow: isDark ? "0 0 40px rgba(244,63,94,0.1)" : "0 10px 30px rgba(0,0,0,0.05)" } : { scale: 1 }}
+              animate={isFocused ? { scale: 1.01 } : { scale: 1 }}
               className={`flex items-center gap-4 px-6 py-5 rounded-[2rem] border transition-all duration-500
                 ${isDark ? 'bg-zinc-900/40 border-zinc-800' : 'bg-white border-zinc-200'}`}
             >
-              <Search className={`transition-colors duration-300 ${isFocused ? 'text-rose-500' : 'opacity-20'}`} size={20} />
+              <Search className={`transition-colors duration-300 ${isFocused ? 'text-red-600' : 'opacity-20'}`} size={20} />
               <input
                 type="text"
                 placeholder="Search by name or tech stack..."
@@ -147,19 +188,18 @@ export default function Projects() {
                 className="w-full bg-transparent border-none focus:outline-none text-sm font-bold tracking-tight placeholder:opacity-30"
               />
               {searchTerm && (
-                <button onClick={() => setSearchTerm('')} className="p-1 hover:text-rose-500"><X size={16}/></button>
+                <button onClick={() => setSearchTerm('')} className="p-1 hover:text-red-600"><X size={16}/></button>
               )}
             </motion.div>
           </div>
 
-          {/* Staggered Filter Dropdown */}
           <div className="relative w-full lg:w-72">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               className={`w-full flex items-center justify-between px-8 py-5 rounded-[2rem] border transition-all duration-500 font-black text-[10px] uppercase tracking-[0.2em]
-                ${isDark ? 'bg-zinc-900/40 border-zinc-800 hover:border-zinc-600' : 'bg-white border-zinc-200 hover:border-rose-200 shadow-sm'}`}
+                ${isDark ? 'bg-zinc-900/40 border-zinc-800 hover:border-zinc-600' : 'bg-white border-zinc-200 hover:border-red-200 shadow-sm'}`}
             >
-              <span className="flex items-center gap-2"><Filter size={14} className="text-rose-500"/> {selectedLanguage}</span>
+              <span className="flex items-center gap-2"><Filter size={14} className="text-red-600"/> {selectedLanguage}</span>
               <div className="flex items-center gap-3">
                 <span className="opacity-20">|</span>
                 <motion.div animate={{ rotate: isOpen ? 180 : 0 }}><Filter size={12} className="opacity-40" /></motion.div>
@@ -185,8 +225,8 @@ export default function Projects() {
                         onClick={() => { setSelectedLanguage(lang); setIsOpen(false); }}
                         className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all
                           ${selectedLanguage === lang 
-                            ? 'bg-rose-500 text-white' 
-                            : isDark ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-rose-50 text-zinc-600 hover:text-rose-500'}`}
+                            ? 'bg-red-600 text-white' 
+                            : isDark ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-red-50 text-zinc-600 hover:text-red-600'}`}
                       >
                         {lang}
                         <span className={`text-[9px] opacity-40 ${selectedLanguage === lang ? 'text-white' : ''}`}>
@@ -200,17 +240,16 @@ export default function Projects() {
             </AnimatePresence>
           </div>
 
-          {/* Results Counter */}
           <div className={`hidden lg:flex items-center px-8 py-5 rounded-[2rem] border font-black text-[10px] uppercase tracking-widest
             ${isDark ? 'bg-zinc-900/20 border-zinc-800 text-zinc-500' : 'bg-zinc-50 border-zinc-200 text-zinc-400'}`}>
-            Found <span className="text-rose-500 mx-2">{filteredRepos.length}</span> Results
+            Found <span className="text-red-600 mx-2">{filteredRepos.length}</span> Results
           </div>
         </motion.div>
 
         {/* Project Grid */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-40 gap-6">
-             <div className="w-10 h-10 border-2 border-rose-500/20 border-t-rose-500 rounded-full animate-spin" />
+             <div className="w-10 h-10 border-2 border-red-600/20 border-t-red-600 rounded-full animate-spin" />
              <p className="font-black text-[10px] tracking-[0.5em] opacity-30 uppercase">Building Repository</p>
           </div>
         ) : (
@@ -228,24 +267,24 @@ export default function Projects() {
                   target="_blank"
                   className={`group p-8 rounded-[2.5rem] border transition-all duration-500 hover:scale-[1.02]
                     ${isDark 
-                      ? 'bg-zinc-900/20 border-zinc-800/50 hover:border-rose-500/30' 
-                      : 'bg-white border-zinc-200/80 shadow-sm hover:shadow-xl hover:border-rose-200'}`}
+                      ? 'bg-zinc-900/20 border-zinc-800/50 hover:border-red-600/30' 
+                      : 'bg-white border-zinc-200/80 shadow-sm hover:shadow-xl hover:border-red-200'}`}
                 >
                   <div className="flex justify-between items-start mb-6">
-                    <h3 className={`text-2xl font-black tracking-tight group-hover:text-rose-500 transition-colors capitalize ${isDark ? 'text-zinc-100' : 'text-zinc-950'}`}>
+                    <h3 className={`text-2xl font-black tracking-tight group-hover:text-red-600 transition-colors capitalize ${isDark ? 'text-zinc-100' : 'text-zinc-950'}`}>
                       {repo.name.replace(/-/g, ' ')}
                     </h3>
-                    <ExternalLink size={18} className="opacity-0 group-hover:opacity-100 group-hover:text-rose-500 transition-all -translate-y-1 translate-x-1" />
+                    <ExternalLink size={18} className="opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition-all -translate-y-1 translate-x-1" />
                   </div>
                   <p className={`mb-8 line-clamp-2 text-sm font-medium leading-relaxed ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>
                     {repo.description || "Experimental open-source project and technical research."}
                   </p>
                   <div className="flex justify-between items-center">
-                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-rose-50 text-rose-600'}`}>
+                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-red-50 text-red-600'}`}>
                       {repo.language || 'Logic'}
                     </span>
                     <span className="flex items-center gap-1.5 text-xs font-bold opacity-40 group-hover:opacity-100 transition-opacity">
-                      <Star size={14} className="text-rose-500" fill="currentColor" /> {repo.stargazers_count}
+                      <Star size={14} className="text-red-600" fill="currentColor" /> {repo.stargazers_count}
                     </span>
                   </div>
                 </motion.a>
@@ -261,9 +300,12 @@ export default function Projects() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        * { cursor: none !important; }
+
+        @media (min-width: 768px) {
+           * { cursor: none !important; }
+        }
       `}} />
     </div>
   );
