@@ -374,7 +374,7 @@ export default function Home() {
       </main>
 
       <footer className="py-28 text-center border-t border-zinc-800/10">
-        <p className={`text-[11px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}> 2026 PRAYAG.</p>
+        <p className={`text-[11px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}> 2026 Prayag.</p>
         <motion.a
     href="https://github.com/dev-prayag"
     target="_blank"
