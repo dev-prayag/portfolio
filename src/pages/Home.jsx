@@ -373,9 +373,14 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="py-28 text-center border-t border-zinc-800/10">
-        <p className={`text-[11px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}> 2026 Prayag.</p>
-        <motion.a
+      <footer className="py-20 text-center border-t border-zinc-800/10 flex flex-col items-center gap-6">
+  {/* Copyright Text */}
+  <p className={`text-[10px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}>
+     2026 PRAYAG.
+  </p>
+
+  {/* GitHub Icon Link */}
+  <motion.a
     href="https://github.com/dev-prayag"
     target="_blank"
     rel="noopener noreferrer"
@@ -384,7 +389,8 @@ export default function Home() {
   >
     <Github size={22} strokeWidth={1.5} />
   </motion.a>
-      </footer>
+</footer>
+
 
       <style dangerouslySetInnerHTML={{ __html: `
         /* Hide Default Cursor */
