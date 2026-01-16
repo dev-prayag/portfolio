@@ -375,6 +375,15 @@ export default function Home() {
 
       <footer className="py-28 text-center border-t border-zinc-800/10">
         <p className={`text-[11px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}> 2026 PRAYAG.</p>
+        <motion.a
+    href="https://github.com/dev-prayag"
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ y: -3, scale: 1.1 }}
+    className={`transition-colors duration-300 ${isDark ? 'text-zinc-600 hover:text-white' : 'text-zinc-400 hover:text-red-600'}`}
+  >
+    <Github size={22} strokeWidth={1.5} />
+  </motion.a>
       </footer>
 
       <style dangerouslySetInnerHTML={{ __html: `
