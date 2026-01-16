@@ -294,9 +294,14 @@ export default function Projects() {
         )}
       </div>
 
-      <footer className="mt-40 py-10 text-center">
-        <p className={`text-[10px] font-black tracking-[1em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-300'}`}>2026 Prayag.</p>
-        <motion.a
+      <footer className="py-20 text-center border-t border-zinc-800/10 flex flex-col items-center gap-6">
+  {/* Copyright Text */}
+  <p className={`text-[10px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}>
+    2026 PRAYAG.
+  </p>
+
+  {/* GitHub Icon Link */}
+  <motion.a
     href="https://github.com/dev-prayag"
     target="_blank"
     rel="noopener noreferrer"
@@ -305,7 +310,8 @@ export default function Projects() {
   >
     <Github size={22} strokeWidth={1.5} />
   </motion.a>
-      </footer>
+</footer>
+
 
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
