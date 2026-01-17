@@ -367,7 +367,7 @@ export default function Home() {
     </div>
   </motion.div>
 </section>
-
+      </main>
 {/* --- FOOTER --- */}
 <footer className="py-12 text-center border-t border-zinc-800/10 flex flex-col items-center gap-6"> {/* Changed py-20 to py-12 */}
   <p className={`text-[10px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}>
