@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { ExternalLink, Search, Star, ArrowLeft, Sun, Moon, Filter, X } from 'lucide-react';
+import { ExternalLink, Search, Star, ArrowLeft, Sun, Moon, Filter, X, Github } from 'lucide-react';
 
 const CACHE_KEY = 'github_repos_cache';
 const CACHE_TIME = 30 * 60 * 1000;
