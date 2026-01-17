@@ -293,84 +293,81 @@ export default function Home() {
             }
           </div>
         </section>
-
-        <section id="contact" className="space-y-8 pb-48 pt-4">
-          <SectionHeader title="Get in Touch" badge="Contact" />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              { label: 'Email', value: 'prayagfx@gmail.com', icon: <Mail size={20}/>, id: 'email' },
-              { label: 'GitHub', value: '@dev-prayag', icon: <Github size={20}/>, id: 'github' },
-              { label: 'Discord', value: 'prayag.cake', icon: <DiscordIcon size={20}/>, id: 'discord' }
-            ].map((item) => (
-              <motion.div 
-                key={item.id} 
-                whileHover={{ y: -8, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                onClick={() => { if (item.id === 'discord') copyDiscord(); }} 
-                className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 
-                  ${isDark 
-                    ? 'bg-zinc-900/30 border-zinc-800/60 hover:border-red-600/50' 
-                    : 'bg-white border-zinc-200/80 hover:shadow-xl hover:border-red-600/30'}`}
-              >
-                <div className={`w-fit p-4 rounded-xl shadow-lg transition-transform group-hover:rotate-12 ${isDark ? 'bg-black text-red-600' : 'bg-red-50 text-red-600'}`}>
-                  {item.id === 'discord' && copied ? <Check size={20} className="text-emerald-500" /> : item.icon}
-                </div>
-                <div>
-                  <p className="text-[9px] font-black uppercase tracking-widest opacity-30 mb-1">{item.label}</p>
-                  <p className={`text-lg font-black tracking-tight ${isDark ? 'text-zinc-100' : 'text-zinc-950'}`}>{item.id === 'discord' && copied ? 'Copied!' : item.value}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* --- FINAL CTA CARD --- */}
-<motion.div 
-  initial={{ opacity: 0, y: 20 }} 
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  // Added mt-16 (mobile) and mt-24 (desktop) to push it down
-  className={`mt-16 md:mt-24 p-8 md:p-14 rounded-[2.5rem] relative overflow-hidden border transition-all duration-500
-    ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-white border-zinc-200/80 shadow-sm'}`}
->
-  {/* The Red Glow Effect */}
-  <div className={`absolute -top-24 -right-24 w-80 h-80 rounded-full blur-[100px] pointer-events-none opacity-20
-    ${isDark ? 'bg-red-600' : 'bg-red-400'}`} 
-  />
-
-  <div className="relative z-10 space-y-8">
-    {/* Availability Badge */}
-    <div className="flex items-center gap-2 text-emerald-500 font-bold text-[10px] uppercase tracking-[0.2em]">
-      <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" /> 
-      Available for work
-    </div>
-
-    {/* Text Content - Adjusted leading for that 'neat' look */}
-    <div className="space-y-4">
-      <h2 className={`text-4xl md:text-5xl font-black tracking-tight leading-[1.1] max-w-xl ${isDark ? 'text-white' : 'text-zinc-950'}`}>
-        Let's build something <br/> amazing together.
-      </h2>
-      <p className={`text-base md:text-lg font-medium opacity-50 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-        Available for your projects.
-      </p>
-    </div>
-
-    {/* Single Icon Button */}
-    <motion.a 
-      whileHover={{ scale: 1.03 }} 
-      whileTap={{ scale: 0.97 }} 
-      href="mailto:prayagfx@gmail.com" 
-      className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-full font-bold transition-all text-sm shadow-xl shadow-red-600/20"
-    >
-      Start a conversation <ArrowUpRight size={18} />
-    </motion.a>
+    {/* --- CONTACT SECTION --- */}
+<section id="contact" className="space-y-8 pt-4">
+  <SectionHeader title="Get in Touch" badge="Contact" />
+  <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    {[
+      { label: 'Email', value: 'prayagfx@gmail.com', icon: <Mail size={20}/>, id: 'email' },
+      { label: 'GitHub', value: '@dev-prayag', icon: <Github size={20}/>, id: 'github' },
+      { label: 'Discord', value: 'prayag.cake', icon: <DiscordIcon size={20}/>, id: 'discord' }
+    ].map((item) => (
+      <motion.div 
+        key={item.id} 
+        whileHover={{ y: -8, scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        onClick={() => { if (item.id === 'discord') copyDiscord(); }} 
+        className={`flex flex-col gap-5 p-8 rounded-[2rem] border cursor-pointer transition-all duration-500 
+          ${isDark 
+            ? 'bg-zinc-900/30 border-zinc-800/60 hover:border-red-600/50' 
+            : 'bg-white border-zinc-200/80 hover:shadow-xl hover:border-red-600/30'}`}
+      >
+        <div className={`w-fit p-4 rounded-xl shadow-lg transition-transform group-hover:rotate-12 ${isDark ? 'bg-black text-red-600' : 'bg-red-50 text-red-600'}`}>
+          {item.id === 'discord' && copied ? <Check size={20} className="text-emerald-500" /> : item.icon}
+        </div>
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-widest opacity-30 mb-1">{item.label}</p>
+          <p className={`text-lg font-black tracking-tight ${isDark ? 'text-zinc-100' : 'text-zinc-950'}`}>{item.id === 'discord' && copied ? 'Copied!' : item.value}</p>
+        </div>
+      </motion.div>
+    ))}
   </div>
-</motion.div>
+</section>
 
+{/* --- FINAL CTA SECTION --- */}
+<section className="pb-48">
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className={`p-8 md:p-14 rounded-[2.5rem] relative overflow-hidden border transition-all duration-500
+      ${isDark ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-white border-zinc-200/80 shadow-sm'}`}
+  >
+    {/* The Red Glow Effect */}
+    <div className={`absolute -top-24 -right-24 w-80 h-80 rounded-full blur-[100px] pointer-events-none opacity-20
+      ${isDark ? 'bg-red-600' : 'bg-red-400'}`} 
+    />
 
-        </section>
+    <div className="relative z-10 space-y-8">
+      <div className="flex items-center gap-2 text-emerald-500 font-bold text-[10px] uppercase tracking-[0.2em]">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" /> 
+        Available for work
+      </div>
+
+      <div className="space-y-4">
+        <h2 className={`text-4xl md:text-5xl font-black tracking-tight leading-[1.1] max-w-xl ${isDark ? 'text-white' : 'text-zinc-950'}`}>
+          Let's build something <br/> amazing together.
+        </h2>
+        <p className={`text-base md:text-lg font-medium opacity-50 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+          Available for your projects.
+        </p>
+      </div>
+
+      <motion.a 
+        whileHover={{ scale: 1.03 }} 
+        whileTap={{ scale: 0.97 }} 
+        href="mailto:prayagfx@gmail.com" 
+        className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-full font-bold transition-all text-sm shadow-xl shadow-red-600/20"
+      >
+        Start a conversation <ArrowUpRight size={18} />
+      </motion.a>
+    </div>
+  </motion.div>
+</section>
+
       </main>
 
       <footer className="py-20 text-center border-t border-zinc-800/10 flex flex-col items-center gap-6">
