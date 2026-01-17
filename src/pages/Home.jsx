@@ -327,8 +327,8 @@ export default function Home() {
   </div>
 </section>
 
-{/* --- FINAL CTA SECTION --- */}
-<section className="pb-48">
+   {/* --- FINAL CTA SECTION --- */}
+<section className="pb-10"> {/* Changed from pb-48 to pb-10 */}
   <motion.div 
     initial={{ opacity: 0, y: 20 }} 
     whileInView={{ opacity: 1, y: 0 }}
@@ -368,15 +368,12 @@ export default function Home() {
   </motion.div>
 </section>
 
-      </main>
-
-      <footer className="py-20 text-center border-t border-zinc-800/10 flex flex-col items-center gap-6">
-  {/* Copyright Text */}
+{/* --- FOOTER --- */}
+<footer className="py-12 text-center border-t border-zinc-800/10 flex flex-col items-center gap-6"> {/* Changed py-20 to py-12 */}
   <p className={`text-[10px] font-mono font-bold tracking-[0.8em] uppercase ${isDark ? 'opacity-20' : 'text-zinc-400'}`}>
      2026 PRAYAG.
   </p>
 
-  {/* GitHub Icon Link */}
   <motion.a
     href="https://github.com/dev-prayag"
     target="_blank"
@@ -387,6 +384,7 @@ export default function Home() {
     <Github size={22} strokeWidth={1.5} />
   </motion.a>
 </footer>
+
 
 
       <style dangerouslySetInnerHTML={{ __html: `
